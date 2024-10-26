@@ -1,0 +1,28 @@
+Reading configuration file /root/.config/srslte/ue.conf...
+
+Built in RelWithDebInfo mode using commit dcb3664 on branch master.
+
+21:38:37.195949 [UE  ] [I] Using binary srsue with arguments: --rf.device_name=zmq --rf.device_args='tx_port=tcp://*:2008,rx_port=tcp://localhost:2500,id=ue,base_srate=23.04e6' --usim.algo=xor --usim.imsi=001010123456781 --usim.k=00112233445566778899aabbccddeeff --usim.imei=353490069873310 --log.all_level=warn --log.filename=stdout --gw.netns=ue3 
+21:38:37.214541 [UE  ] [I] Built in RelWithDebInfo mode using commit dcb3664 on branch master.
+Opening 1 channels in RF device=zmq with args='tx_port=tcp://*:2008,rx_port=tcp://localhost:2500,id=ue,base_srate=23.04e6'
+CHx base_srate=23.04e6'
+CHx id=ue
+Current sample rate is 1.92 MHz with a base rate of 23.04 MHz (x12 decimation)
+CH0 rx_port=tcp://localhost:2500
+CH0 tx_port=tcp://*:2008
+Waiting PHY to initialize ... done!
+Attaching UE...
+Current sample rate is 1.92 MHz with a base rate of 23.04 MHz (x12 decimation)
+Current sample rate is 1.92 MHz with a base rate of 23.04 MHz (x12 decimation)
+Closing stdin thread.
+.
+Found Cell:  Mode=FDD, PCI=1, PRB=100, Ports=1, CFO=-0.2 KHz
+Current sample rate is 23.04 MHz with a base rate of 23.04 MHz (x1 decimation)
+Current sample rate is 23.04 MHz with a base rate of 23.04 MHz (x1 decimation)
+Found PLMN:  Id=00101, TAC=7
+Random Access Transmission: seq=25, ra-rnti=0x2
+Random Access Transmission: seq=23, ra-rnti=0x2
+Random Access Complete.     c-rnti=0x49, ta=0
+RRC Connected
+Network attach successful. IP: 172.16.0.4
+Software Radio Systems LTE (srsLTE) 26/3/2024 21:38:39 TZ:0

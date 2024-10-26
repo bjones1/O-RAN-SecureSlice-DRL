@@ -1,0 +1,15 @@
+
+Built in RelWithDebInfo mode using commit dcb3664 on branch master.
+
+
+---  Software Radio Systems EPC  ---
+
+Reading configuration file /home/aerpaw/.config/srslte/epc.conf...
+srsLog error - Unable to create log file "": Permission denied
+HSS Initialized.
+MME S11 Initialized
+MME GTP-C Initialized
+MME Initialized. MCC: 0xf001, MNC: 0xff01
+Could not initialize the SGi interface.
+Could not initialize the SPGW's GTP-U.
+Error initializing SP-GW

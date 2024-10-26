@@ -1,0 +1,786 @@
+1711489088066 1/RMR [INFO] sends: ts=1711489088 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=10.108.254.101:38000 open=1 succ=5 fail=0 (hard=0 soft=0)
+1711489088066 1/RMR [INFO] sends: ts=1711489088 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2term-rmr-alpha.ricplt:38000 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489088066 1/RMR [INFO] sends: ts=1711489088 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-submgr-rmr.ricplt:4560 open=1 succ=2 fail=0 (hard=0 soft=0)
+1711489088066 1/RMR [INFO] sends: ts=1711489088 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2mgr-rmr.ricplt:3801 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489088066 1/RMR [INFO] sends: ts=1711489088 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-a1mediator-rmr.ricplt:4562 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489119065 1/RMR [INFO] sends: ts=1711489119 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=10.108.254.101:38000 open=1 succ=5 fail=0 (hard=0 soft=0)
+1711489119065 1/RMR [INFO] sends: ts=1711489119 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2term-rmr-alpha.ricplt:38000 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489119065 1/RMR [INFO] sends: ts=1711489119 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-submgr-rmr.ricplt:4560 open=1 succ=2 fail=0 (hard=0 soft=0)
+1711489119065 1/RMR [INFO] sends: ts=1711489119 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2mgr-rmr.ricplt:3801 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489119065 1/RMR [INFO] sends: ts=1711489119 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-a1mediator-rmr.ricplt:4562 open=0 succ=0 fail=0 (hard=0 soft=0)
+{"ts":1711489105826,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"Creating app and attaching to RMR"}
+1711489105826 1/RMR [INFO] ric message routing library on SI95 p=4560 mv=3 flg=00 id=a (f447e29 4.9.4 built: Dec 13 2023)
+{"ts":1711489106826,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"Starting app"}
+{"ts":1711489106827,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"initialized northbound interface (0.0.0.0:8000"}
+{"ts":1711489106827,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"started northbound interface"}
+1711489106829 1/RMR [INFO] sends: ts=1711489106 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2term-rmr-alpha.ricplt:38000 open=0 succ=0 fail=0 (hard=0 soft=0)
+<E2SM-NexRAN-ControlHeader>
+    <controlHeaderFormat1>
+        <controlMessageId><sliceStatusRequest/></controlMessageId>
+    </controlHeaderFormat1>
+</E2SM-NexRAN-ControlHeader>
+<E2SM-NexRAN-ControlMessage>
+    <controlMessageFormat1>
+        <sliceStatusRequest>
+            <sliceNameList>
+            </sliceNameList>
+        </sliceStatusRequest>
+    </controlMessageFormat1>
+</E2SM-NexRAN-ControlMessage>
+<E2AP-PDU>
+    <initiatingMessage>
+        <procedureCode>4</procedureCode>
+        <criticality><reject/></criticality>
+        <value>
+            <RICcontrolRequest>
+                <protocolIEs>
+                    <RICcontrolRequest-IEs>
+                        <id>29</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICrequestID>
+                                <ricRequestorID>8934</ricRequestorID>
+                                <ricInstanceID>1</ricInstanceID>
+                            </RICrequestID>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>5</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RANfunctionID>1</RANfunctionID>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>22</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolHeader>08</RICcontrolHeader>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>23</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolMessage>10 00</RICcontrolMessage>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>21</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolAckRequest><ack/></RICcontrolAckRequest>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                </protocolIEs>
+            </RICcontrolRequest>
+        </value>
+    </initiatingMessage>
+</E2AP-PDU>
+<E2SM-KPM-EventTriggerDefinition>
+    <eventDefinition-Format1>
+        <policyTest-List>
+            <Trigger-ConditionIE-Item>
+                <report-Period-IE><ms5120/></report-Period-IE>
+            </Trigger-ConditionIE-Item>
+        </policyTest-List>
+    </eventDefinition-Format1>
+</E2SM-KPM-EventTriggerDefinition>
+<E2AP-PDU>
+    <initiatingMessage>
+        <procedureCode>8</procedureCode>
+        <criticality><reject/></criticality>
+        <value>
+            <RICsubscriptionRequest>
+                <protocolIEs>
+                    <RICsubscriptionRequest-IEs>
+                        <id>29</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICrequestID>
+                                <ricRequestorID>8934</ricRequestorID>
+                                <ricInstanceID>2</ricInstanceID>
+                            </RICrequestID>
+                        </value>
+                    </RICsubscriptionRequest-IEs>
+                    <RICsubscriptionRequest-IEs>
+                        <id>5</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RANfunctionID>0</RANfunctionID>
+                        </value>
+                    </RICsubscriptionRequest-IEs>
+                    <RICsubscriptionRequest-IEs>
+                        <id>30</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICsubscriptionDetails>
+                                <ricEventTriggerDefinition>20 48</ricEventTriggerDefinition>
+                                <ricAction-ToBeSetup-List>
+                                    <ProtocolIE-SingleContainer>
+                                        <id>19</id>
+                                        <criticality><reject/></criticality>
+                                        <value>
+                                            <RICaction-ToBeSetup-Item>
+                                                <ricActionID>1</ricActionID>
+                                                <ricActionType><report/></ricActionType>
+                                            </RICaction-ToBeSetup-Item>
+                                        </value>
+                                    </ProtocolIE-SingleContainer>
+                                </ricAction-ToBeSetup-List>
+                            </RICsubscriptionDetails>
+                        </value>
+                    </RICsubscriptionRequest-IEs>
+                </protocolIEs>
+            </RICsubscriptionRequest>
+        </value>
+    </initiatingMessage>
+</E2AP-PDU>
+<E2SM-Zylinium-ControlHeader>
+    <controlHeaderFormat1>
+        <controlMessageId><maskStatusRequest/></controlMessageId>
+    </controlHeaderFormat1>
+</E2SM-Zylinium-ControlHeader>
+<E2SM-Zylinium-ControlMessage>
+    <controlMessageFormat1>
+        <maskStatusRequest>
+        </maskStatusRequest>
+    </controlMessageFormat1>
+{"ts":1711489135891,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"sent subscription request (xid=8934.2,requestor_id=8934,instance_id=2,meid=enB_macro_001_001_0019b0) "}
+</E2SM-Zylinium-ControlMessage>
+<E2AP-PDU>
+    <initiatingMessage>
+        <procedureCode>4</procedureCode>
+        <criticality><reject/></criticality>
+        <value>
+            <RICcontrolRequest>
+                <protocolIEs>
+                    <RICcontrolRequest-IEs>
+                        <id>29</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICrequestID>
+                                <ricRequestorID>8934</ricRequestorID>
+                                <ricInstanceID>3</ricInstanceID>
+                            </RICrequestID>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>5</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RANfunctionID>2</RANfunctionID>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>22</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolHeader>10</RICcontrolHeader>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>23</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolMessage>20</RICcontrolMessage>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>21</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolAckRequest><ack/></RICcontrolAckRequest>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                </protocolIEs>
+            </RICcontrolRequest>
+        </value>
+    </initiatingMessage>
+</E2AP-PDU>
+<E2SM-Zylinium-EventTriggerDefinition>
+    <ranEventDefinition>
+    </ranEventDefinition>
+</E2SM-Zylinium-EventTriggerDefinition>
+<E2AP-PDU>
+    <initiatingMessage>
+        <procedureCode>8</procedureCode>
+        <criticality><reject/></criticality>
+        <value>
+            <RICsubscriptionRequest>
+                <protocolIEs>
+                    <RICsubscriptionRequest-IEs>
+                        <id>29</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICrequestID>
+                                <ricRequestorID>8934</ricRequestorID>
+                                <ricInstanceID>4</ricInstanceID>
+                            </RICrequestID>
+                        </value>
+                    </RICsubscriptionRequest-IEs>
+                    <RICsubscriptionRequest-IEs>
+                        <id>5</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RANfunctionID>2</RANfunctionID>
+                        </value>
+                    </RICsubscriptionRequest-IEs>
+                    <RICsubscriptionRequest-IEs>
+                        <id>30</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICsubscriptionDetails>
+                                <ricEventTriggerDefinition>00</ricEventTriggerDefinition>
+                                <ricAction-ToBeSetup-List>
+                                    <ProtocolIE-SingleContainer>
+                                        <id>19</id>
+                                        <criticality><reject/></criticality>
+                                        <value>
+                                            <RICaction-ToBeSetup-Item>
+                                                <ricActionID>1</ricActionID>
+                                                <ricActionType><report/></ricActionType>
+{"ts":1711489135893,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"sent subscription request (xid=8934.4,requestor_id=8934,instance_id=4,meid=enB_macro_001_001_0019b0) "}
+                                            </RICaction-ToBeSetup-Item>
+                                        </value>
+                                    </ProtocolIE-SingleContainer>
+                                </ricAction-ToBeSetup-List>
+                            </RICsubscriptionDetails>
+                        </value>
+                    </RICsubscriptionRequest-IEs>
+                </protocolIEs>
+            </RICsubscriptionRequest>
+        </value>
+    </initiatingMessage>
+</E2AP-PDU>
+<E2SM-Zylinium-ControlHeader>
+    <controlHeaderFormat1>
+        <controlMessageId><maskConfigRequest/></controlMessageId>
+    </controlHeaderFormat1>
+</E2SM-Zylinium-ControlHeader>
+<E2SM-Zylinium-ControlMessage>
+    <controlMessageFormat1>
+        <maskConfigRequest>
+            <dlDefault>0x0</dlDefault>
+            <ulDefault>0x0</ulDefault>
+            <dlSched>
+            </dlSched>
+            <ulSched>
+            </ulSched>
+        </maskConfigRequest>
+    </controlMessageFormat1>
+</E2SM-Zylinium-ControlMessage>
+<E2AP-PDU>
+    <initiatingMessage>
+        <procedureCode>4</procedureCode>
+        <criticality><reject/></criticality>
+        <value>
+            <RICcontrolRequest>
+                <protocolIEs>
+                    <RICcontrolRequest-IEs>
+                        <id>29</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICrequestID>
+                                <ricRequestorID>8934</ricRequestorID>
+                                <ricInstanceID>5</ricInstanceID>
+                            </RICrequestID>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>5</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RANfunctionID>2</RANfunctionID>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>22</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolHeader>00</RICcontrolHeader>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>23</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolMessage>00 00 02 30 78 30 00 02 30 78 30 00 00 00 00</RICcontrolMessage>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>21</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolAckRequest><ack/></RICcontrolAckRequest>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                </protocolIEs>
+            </RICcontrolRequest>
+        </value>
+    </initiatingMessage>
+</E2AP-PDU>
+{"ts":1711489135893,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"added nodeb enB_macro_001_001_0019b0"}
+rpc error: code = Unknown desc = Error: No such container: e32f81ae2eaddcaad4cffb2d26f4a121f216c2b0d7bc0b907523fa1413f7e9ba1711489137832 1/RMR [INFO] sends: ts=1711489137 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2term-rmr-alpha.ricplt:38000 open=1 succ=2 fail=0 (hard=0 soft=0)
+{"ts":1711489140929,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"added slice fast"}
+{"ts":1711489145962,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"added slice secure_slice"}
+<E2SM-NexRAN-ControlHeader>
+    <controlHeaderFormat1>
+        <controlMessageId><sliceConfigRequest/></controlMessageId>
+    </controlHeaderFormat1>
+</E2SM-NexRAN-ControlHeader>
+<E2SM-NexRAN-ControlMessage>
+    <controlMessageFormat1>
+        <sliceConfigRequest>
+            <sliceConfigList>
+                <SliceConfig>
+                    <sliceName>fast</sliceName>
+                    <schedPolicy>
+                        <proportionalAllocationPolicy>
+                            <share>1024</share>
+                        </proportionalAllocationPolicy>
+                    </schedPolicy>
+                </SliceConfig>
+            </sliceConfigList>
+        </sliceConfigRequest>
+    </controlMessageFormat1>
+</E2SM-NexRAN-ControlMessage>
+<E2AP-PDU>
+    <initiatingMessage>
+        <procedureCode>4</procedureCode>
+        <criticality><reject/></criticality>
+        <value>
+            <RICcontrolRequest>
+                <protocolIEs>
+                    <RICcontrolRequest-IEs>
+                        <id>29</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICrequestID>
+                                <ricRequestorID>8934</ricRequestorID>
+                                <ricInstanceID>6</ricInstanceID>
+                            </RICrequestID>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>5</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RANfunctionID>1</RANfunctionID>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>22</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolHeader>00</RICcontrolHeader>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>23</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolMessage>00 00 C0 66 61 73 74 00 04 00</RICcontrolMessage>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>21</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolAckRequest><ack/></RICcontrolAckRequest>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                </protocolIEs>
+            </RICcontrolRequest>
+        </value>
+    </initiatingMessage>
+</E2AP-PDU>
+{"ts":1711489150992,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"bound slice fast to nodeb enB_macro_001_001_0019b0"}
+<E2SM-NexRAN-ControlHeader>
+    <controlHeaderFormat1>
+        <controlMessageId><sliceConfigRequest/></controlMessageId>
+    </controlHeaderFormat1>
+</E2SM-NexRAN-ControlHeader>
+<E2SM-NexRAN-ControlMessage>
+    <controlMessageFormat1>
+        <sliceConfigRequest>
+            <sliceConfigList>
+                <SliceConfig>
+                    <sliceName>secure_slice</sliceName>
+                    <schedPolicy>
+                        <proportionalAllocationPolicy>
+                            <share>64</share>
+                        </proportionalAllocationPolicy>
+                    </schedPolicy>
+                </SliceConfig>
+            </sliceConfigList>
+        </sliceConfigRequest>
+    </controlMessageFormat1>
+</E2SM-NexRAN-ControlMessage>
+<E2AP-PDU>
+    <initiatingMessage>
+        <procedureCode>4</procedureCode>
+        <criticality><reject/></criticality>
+        <value>
+            <RICcontrolRequest>
+                <protocolIEs>
+                    <RICcontrolRequest-IEs>
+                        <id>29</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICrequestID>
+                                <ricRequestorID>8934</ricRequestorID>
+                                <ricInstanceID>7</ricInstanceID>
+                            </RICrequestID>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>5</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RANfunctionID>1</RANfunctionID>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>22</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolHeader>00</RICcontrolHeader>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>23</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolMessage>
+                                00 02 C0 73 65 63 75 72 65 5F 73 6C 69 63 65 00 
+                                00 40
+                            </RICcontrolMessage>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>21</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolAckRequest><ack/></RICcontrolAckRequest>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                </protocolIEs>
+            </RICcontrolRequest>
+        </value>
+    </initiatingMessage>
+</E2AP-PDU>
+{"ts":1711489156026,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"bound slice secure_slice to nodeb enB_macro_001_001_0019b0"}
+{"ts":1711489161050,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"added ue 001010123456789"}
+{"ts":1711489166083,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"added ue 001010123456780"}
+1711489168834 1/RMR [INFO] sends: ts=1711489168 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2term-rmr-alpha.ricplt:38000 open=1 succ=2 fail=0 (hard=0 soft=0)
+{"ts":1711489171102,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"added ue 001010123456781"}
+<E2SM-NexRAN-ControlHeader>
+    <controlHeaderFormat1>
+        <controlMessageId><sliceUeBindRequest/></controlMessageId>
+    </controlHeaderFormat1>
+</E2SM-NexRAN-ControlHeader>
+<E2SM-NexRAN-ControlMessage>
+    <controlMessageFormat1>
+        <sliceUeBindRequest>
+            <sliceName>fast</sliceName>
+            <imsiList>
+                <IMSI>30 30 31 30 31 30 31 32 33 34 35 36 37 38 39</IMSI>
+            </imsiList>
+        </sliceUeBindRequest>
+    </controlMessageFormat1>
+</E2SM-NexRAN-ControlMessage>
+<E2AP-PDU>
+    <initiatingMessage>
+        <procedureCode>4</procedureCode>
+        <criticality><reject/></criticality>
+        <value>
+            <RICcontrolRequest>
+                <protocolIEs>
+                    <RICcontrolRequest-IEs>
+                        <id>29</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICrequestID>
+                                <ricRequestorID>8934</ricRequestorID>
+                                <ricInstanceID>8</ricInstanceID>
+                            </RICrequestID>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+{"ts":1711489176133,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"bound ue 001010123456789 to slice fast"}
+                        <id>5</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RANfunctionID>1</RANfunctionID>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>22</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolHeader>0C</RICcontrolHeader>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>23</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolMessage>
+                                18 18 66 61 73 74 00 3C 30 30 31 30 31 30 31 32 
+                                33 34 35 36 37 38 39
+                            </RICcontrolMessage>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>21</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolAckRequest><ack/></RICcontrolAckRequest>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                </protocolIEs>
+            </RICcontrolRequest>
+        </value>
+    </initiatingMessage>
+</E2AP-PDU>
+<E2SM-NexRAN-ControlHeader>
+    <controlHeaderFormat1>
+        <controlMessageId><sliceUeBindRequest/></controlMessageId>
+    </controlHeaderFormat1>
+</E2SM-NexRAN-ControlHeader>
+<E2SM-NexRAN-ControlMessage>
+    <controlMessageFormat1>
+        <sliceUeBindRequest>
+            <sliceName>fast</sliceName>
+            <imsiList>
+                <IMSI>30 30 31 30 31 30 31 32 33 34 35 36 37 38 30</IMSI>
+            </imsiList>
+        </sliceUeBindRequest>
+    </controlMessageFormat1>
+</E2SM-NexRAN-ControlMessage>
+<E2AP-PDU>
+    <initiatingMessage>
+        <procedureCode>4</procedureCode>
+        <criticality><reject/></criticality>
+        <value>
+            <RICcontrolRequest>
+                <protocolIEs>
+                    <RICcontrolRequest-IEs>
+                        <id>29</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICrequestID>
+                                <ricRequestorID>8934</ricRequestorID>
+                                <ricInstanceID>9</ricInstanceID>
+                            </RICrequestID>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>5</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RANfunctionID>1</RANfunctionID>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>22</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolHeader>0C</RICcontrolHeader>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>23</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolMessage>
+                                18 18 66 61 73 74 00 3C 30 30 31 30 31 30 31 32 
+                                33 34 35 36 37 38 30
+                            </RICcontrolMessage>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>21</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolAckRequest><ack/></RICcontrolAckRequest>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                </protocolIEs>
+            </RICcontrolRequest>
+        </value>
+    </initiatingMessage>
+</E2AP-PDU>
+{"ts":1711489181158,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"bound ue 001010123456780 to slice fast"}
+<E2SM-NexRAN-ControlHeader>
+    <controlHeaderFormat1>
+        <controlMessageId><sliceUeBindRequest/></controlMessageId>
+    </controlHeaderFormat1>
+</E2SM-NexRAN-ControlHeader>
+<E2SM-NexRAN-ControlMessage>
+    <controlMessageFormat1>
+        <sliceUeBindRequest>
+            <sliceName>fast</sliceName>
+            <imsiList>
+                <IMSI>30 30 31 30 31 30 31 32 33 34 35 36 37 38 31</IMSI>
+            </imsiList>
+        </sliceUeBindRequest>
+    </controlMessageFormat1>
+</E2SM-NexRAN-ControlMessage>
+<E2AP-PDU>
+    <initiatingMessage>
+        <procedureCode>4</procedureCode>
+        <criticality><reject/></criticality>
+        <value>
+            <RICcontrolRequest>
+                <protocolIEs>
+                    <RICcontrolRequest-IEs>
+                        <id>29</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICrequestID>
+                                <ricRequestorID>8934</ricRequestorID>
+                                <ricInstanceID>10</ricInstanceID>
+                            </RICrequestID>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>5</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RANfunctionID>1</RANfunctionID>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>22</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolHeader>0C</RICcontrolHeader>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>23</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolMessage>
+                                18 18 66 61 73 74 00 3C 30 30 31 30 31 30 31 32 
+                                33 34 35 36 37 38 31
+                            </RICcontrolMessage>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                    <RICcontrolRequest-IEs>
+                        <id>21</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RICcontrolAckRequest><ack/></RICcontrolAckRequest>
+                        </value>
+                    </RICcontrolRequest-IEs>
+                </protocolIEs>
+            </RICcontrolRequest>
+        </value>
+    </initiatingMessage>
+</E2AP-PDU>
+{"ts":1711489186191,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"sent control request (subid=-470007137,requestor_id=8934,instance_id=10,meid=enB_macro_001_001_0019b0) "}
+{"ts":1711489186191,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"bound ue 001010123456781 to slice fast"}
+<E2AP-PDU>
+    <unsuccessfulOutcome>
+{"ts":1711489186195,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"RMR message (type 12042, source enB_macro_001_001_0019b0)"}
+{"ts":1711489186195,"crit":"INFO","id":"nexran","mdc":{},"msg":"decoded unsuccessful outcome RICcontrol (4) "}
+        <procedureCode>4</procedureCode>
+        <criticality><reject/></criticality>
+        <value>
+            <RICcontrolFailure>
+                <protocolIEs>
+                    <RICcontrolFailure-IEs>
+                        <id>29</id>
+                        <criticality><reject/></criticality>
+{"ts":1711489186195,"crit":"DEBUG","id":"nexran","mdc":{},"msg":"nexran ControlFailure handler"}
+                        <value>
+                            <RICrequestID>
+                                <ricRequestorID>8934</ricRequestorID>
+                                <ricInstanceID>10</ricInstanceID>
+                            </RICrequestID>
+                        </value>
+                    </RICcontrolFailure-IEs>
+                    <RICcontrolFailure-IEs>
+                        <id>5</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <RANfunctionID>1</RANfunctionID>
+                        </value>
+                    </RICcontrolFailure-IEs>
+                    <RICcontrolFailure-IEs>
+                        <id>1</id>
+                        <criticality><reject/></criticality>
+                        <value>
+                            <Cause>
+                                <ricRequest><control-message-invalid/></ricRequest>
+                            </Cause>
+                        </value>
+                    </RICcontrolFailure-IEs>
+                </protocolIEs>
+            </RICcontrolFailure>
+        </value>
+    </unsuccessfulOutcome>
+</E2AP-PDU>
+1711489199079 1/RMR [INFO] sends: ts=1711489199 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=10.108.254.101:38000 open=1 succ=1 fail=0 (hard=0 soft=0)
+1711489199079 1/RMR [INFO] sends: ts=1711489199 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2term-rmr-alpha.ricplt:38000 open=1 succ=2 fail=0 (hard=0 soft=0)
+1711489199079 1/RMR [INFO] sends: ts=1711489199 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-submgr-rmr.ricplt:4560 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489199079 1/RMR [INFO] sends: ts=1711489199 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2mgr-rmr.ricplt:3801 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489199079 1/RMR [INFO] sends: ts=1711489199 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-a1mediator-rmr.ricplt:4562 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489230082 1/RMR [INFO] sends: ts=1711489230 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=10.108.254.101:38000 open=1 succ=1 fail=0 (hard=0 soft=0)
+1711489230083 1/RMR [INFO] sends: ts=1711489230 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2term-rmr-alpha.ricplt:38000 open=1 succ=2 fail=0 (hard=0 soft=0)
+1711489230083 1/RMR [INFO] sends: ts=1711489230 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-submgr-rmr.ricplt:4560 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489230083 1/RMR [INFO] sends: ts=1711489230 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2mgr-rmr.ricplt:3801 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489230083 1/RMR [INFO] sends: ts=1711489230 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-a1mediator-rmr.ricplt:4562 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489261088 1/RMR [INFO] sends: ts=1711489261 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=10.108.254.101:38000 open=1 succ=1 fail=0 (hard=0 soft=0)
+1711489261088 1/RMR [INFO] sends: ts=1711489261 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2term-rmr-alpha.ricplt:38000 open=1 succ=2 fail=0 (hard=0 soft=0)
+1711489261088 1/RMR [INFO] sends: ts=1711489261 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-submgr-rmr.ricplt:4560 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489261088 1/RMR [INFO] sends: ts=1711489261 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2mgr-rmr.ricplt:3801 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489261088 1/RMR [INFO] sends: ts=1711489261 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-a1mediator-rmr.ricplt:4562 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489292091 1/RMR [INFO] sends: ts=1711489292 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=10.108.254.101:38000 open=1 succ=1 fail=0 (hard=0 soft=0)
+1711489292091 1/RMR [INFO] sends: ts=1711489292 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2term-rmr-alpha.ricplt:38000 open=1 succ=2 fail=0 (hard=0 soft=0)
+1711489292091 1/RMR [INFO] sends: ts=1711489292 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-submgr-rmr.ricplt:4560 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489292091 1/RMR [INFO] sends: ts=1711489292 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2mgr-rmr.ricplt:3801 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489292091 1/RMR [INFO] sends: ts=1711489292 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-a1mediator-rmr.ricplt:4562 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489323090 1/RMR [INFO] sends: ts=1711489323 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=10.108.254.101:38000 open=1 succ=1 fail=0 (hard=0 soft=0)
+1711489323090 1/RMR [INFO] sends: ts=1711489323 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2term-rmr-alpha.ricplt:38000 open=1 succ=2 fail=0 (hard=0 soft=0)
+1711489323090 1/RMR [INFO] sends: ts=1711489323 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-submgr-rmr.ricplt:4560 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489323090 1/RMR [INFO] sends: ts=1711489323 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2mgr-rmr.ricplt:3801 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489323090 1/RMR [INFO] sends: ts=1711489323 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-a1mediator-rmr.ricplt:4562 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489354092 1/RMR [INFO] sends: ts=1711489354 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=10.108.254.101:38000 open=1 succ=1 fail=0 (hard=0 soft=0)
+1711489354092 1/RMR [INFO] sends: ts=1711489354 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2term-rmr-alpha.ricplt:38000 open=1 succ=2 fail=0 (hard=0 soft=0)
+1711489354092 1/RMR [INFO] sends: ts=1711489354 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-submgr-rmr.ricplt:4560 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489354092 1/RMR [INFO] sends: ts=1711489354 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2mgr-rmr.ricplt:3801 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489354092 1/RMR [INFO] sends: ts=1711489354 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-a1mediator-rmr.ricplt:4562 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489385096 1/RMR [INFO] sends: ts=1711489385 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=10.108.254.101:38000 open=1 succ=1 fail=0 (hard=0 soft=0)
+1711489385096 1/RMR [INFO] sends: ts=1711489385 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2term-rmr-alpha.ricplt:38000 open=1 succ=2 fail=0 (hard=0 soft=0)
+1711489385096 1/RMR [INFO] sends: ts=1711489385 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-submgr-rmr.ricplt:4560 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489385096 1/RMR [INFO] sends: ts=1711489385 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2mgr-rmr.ricplt:3801 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489385096 1/RMR [INFO] sends: ts=1711489385 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-a1mediator-rmr.ricplt:4562 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489416098 1/RMR [INFO] sends: ts=1711489416 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=10.108.254.101:38000 open=1 succ=1 fail=0 (hard=0 soft=0)
+1711489416099 1/RMR [INFO] sends: ts=1711489416 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2term-rmr-alpha.ricplt:38000 open=1 succ=2 fail=0 (hard=0 soft=0)
+1711489416099 1/RMR [INFO] sends: ts=1711489416 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-submgr-rmr.ricplt:4560 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489416099 1/RMR [INFO] sends: ts=1711489416 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2mgr-rmr.ricplt:3801 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489416099 1/RMR [INFO] sends: ts=1711489416 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-a1mediator-rmr.ricplt:4562 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489717134 1/RMR [INFO] sends: ts=1711489717 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=10.108.254.101:38000 open=1 succ=1 fail=0 (hard=0 soft=0)
+1711489717134 1/RMR [INFO] sends: ts=1711489717 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2term-rmr-alpha.ricplt:38000 open=1 succ=2 fail=0 (hard=0 soft=0)
+1711489717134 1/RMR [INFO] sends: ts=1711489717 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-submgr-rmr.ricplt:4560 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489717134 1/RMR [INFO] sends: ts=1711489717 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2mgr-rmr.ricplt:3801 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711489717134 1/RMR [INFO] sends: ts=1711489717 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-a1mediator-rmr.ricplt:4562 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711490018170 1/RMR [INFO] sends: ts=1711490018 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=10.108.254.101:38000 open=1 succ=1 fail=0 (hard=0 soft=0)
+1711490018170 1/RMR [INFO] sends: ts=1711490018 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2term-rmr-alpha.ricplt:38000 open=1 succ=2 fail=0 (hard=0 soft=0)
+1711490018170 1/RMR [INFO] sends: ts=1711490018 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-submgr-rmr.ricplt:4560 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711490018170 1/RMR [INFO] sends: ts=1711490018 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2mgr-rmr.ricplt:3801 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711490018170 1/RMR [INFO] sends: ts=1711490018 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-a1mediator-rmr.ricplt:4562 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711490319195 1/RMR [INFO] sends: ts=1711490319 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=10.108.254.101:38000 open=1 succ=1 fail=0 (hard=0 soft=0)
+1711490319195 1/RMR [INFO] sends: ts=1711490319 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2term-rmr-alpha.ricplt:38000 open=1 succ=2 fail=0 (hard=0 soft=0)
+1711490319195 1/RMR [INFO] sends: ts=1711490319 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-submgr-rmr.ricplt:4560 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711490319195 1/RMR [INFO] sends: ts=1711490319 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2mgr-rmr.ricplt:3801 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711490319195 1/RMR [INFO] sends: ts=1711490319 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-a1mediator-rmr.ricplt:4562 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711490620238 1/RMR [INFO] sends: ts=1711490620 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=10.108.254.101:38000 open=1 succ=1 fail=0 (hard=0 soft=0)
+1711490620238 1/RMR [INFO] sends: ts=1711490620 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2term-rmr-alpha.ricplt:38000 open=1 succ=2 fail=0 (hard=0 soft=0)
+1711490620238 1/RMR [INFO] sends: ts=1711490620 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-submgr-rmr.ricplt:4560 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711490620238 1/RMR [INFO] sends: ts=1711490620 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-e2mgr-rmr.ricplt:3801 open=0 succ=0 fail=0 (hard=0 soft=0)
+1711490620238 1/RMR [INFO] sends: ts=1711490620 src=service-ricxapp-drl-ss-rmr.ricxapp:4560 target=service-ricplt-a1mediator-rmr.ricplt:4562 open=0 succ=0 fail=0 (hard=0 soft=0)
