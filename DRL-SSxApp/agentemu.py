@@ -36,11 +36,11 @@ print(device)
 """
 
 # Hyperparameters and environment-specific constants
-LR = 5  # Learning Rate: Adjusts the model weights during training. Smaller values lead to slower training but more stable learning.
+LR = 1e-4  # Learning Rate: Adjusts the model weights during training. Smaller values lead to slower training but more stable learning.
 BATCH_SIZE = 128  # Number of experiences processed in each training batch.
 BUFFER_SIZE = int(1e5)  # Size of the replay buffer, which stores past experiences for learning. Larger buffers can improve learning but require more memory.
 UPDATE_EVERY = 8  # How often to update the model parameters during training.
-TAU = 3e-4  # Soft update parameter for updating the target network. Determines how much of the local model's weights are copied to the target network.
+TAU = 1e-4  # Soft update parameter for updating the target network. Determines how much of the local model's weights are copied to the target network.
 
 # Constants for PRB and DL Bytes mapping and thresholds
 PRB_INC_RATE = 6877         # Determines how many Physical Resource Blocks (PRB) to increase when adjusting PRB allocation.
@@ -49,7 +49,12 @@ DL_BYTES_THRESHOLD = [19919004, 6640395, 664005] # Thresholds for different slic
 #DL_BYTES_THRESHOLD = [6640395, 6640395, 6640395] # Thresholds for different slice types: Embb, Medium, Urllc.
 
 REWARD_PER_EPISODE = []  # List to store rewards for each episode
-EPISODE_MAX_TIMESTEP = 300  # Maximum number of timesteps per episode
+EPISODE_MAX_TIMESTEP = 3000  # Maximum number of timesteps per episode
+
+
+        # Initialize a counter for unique episodes
+global unique_episode_counter
+
 
 class QNetwork(nn.Module):
     """
@@ -165,10 +170,13 @@ class ReplayBuffer:
     def __len__(self):
         return len(self.memory)
 
-def dqn(n_episodes=1500, max_t=300, eps_start=1.0, eps_end=0.01, eps_decay=0.995, pth_file='checkpoint.pth'):
+def dqn(n_episodes=1500, max_t=3000, eps_start=1.0, eps_end=0.01, eps_decay=0.995, pth_file='checkpoint.pth'):
     """
     Train the DQN agent with specified parameters and save checkpoints.
     """
+
+    unique_episode_counter = 0
+
     eps = eps_start  # Initialize epsilon (exploration rate)
     df, df_file_len = create_df()  # Create the dataframes for each slice and get their lengths
 
@@ -176,7 +184,7 @@ def dqn(n_episodes=1500, max_t=300, eps_start=1.0, eps_end=0.01, eps_decay=0.995
     rewards = []
     total_prbs = [[],[],[]]
     dl_bytes = [[],[],[]]
-    action_prbs = [1,1,1] # agent defined number of prbs for each state
+    action_prbs = [2830,910,70] # agent defined number of prbs for each state
     total = 0
 
     total = 0
@@ -192,10 +200,10 @@ def dqn(n_episodes=1500, max_t=300, eps_start=1.0, eps_end=0.01, eps_decay=0.995
         max_t = 0
         i = 1
         # assigned PRBs to each slice
-        action_prbs = [1,1,1]
+        action_prbs = [2830,910,70] # agent defined number of prbs for each state
         global DL_BYTE_TO_PRB_RATES
         # number of DL bytes that each slice increases by per PRB
-        DL_BYTE_TO_PRB_RATES = [10000, 10000, 10000]
+        DL_BYTE_TO_PRB_RATES = [6877, 6877, 6877]
 
     
         next_state = get_state(df, df_file_len, action_prbs)  # Get the initial state from the dataframes
@@ -229,13 +237,25 @@ def dqn(n_episodes=1500, max_t=300, eps_start=1.0, eps_end=0.01, eps_decay=0.995
 
         # Update the state lists with the current state
 
-        # Logging progress
-        avg_reward = sum(rewards) / len(rewards)
-        print(f'\rEpisode {episode}\tAverage Score: {avg_reward:.2f}', end="")
-        reward_averages.append(avg_reward)
-        percentages.append(correct/total)
-        if episode % 50000 == 0:
-            print(f'\rEpisode {episode}\tAverage Score: {avg_reward}')
+
+
+
+
+            # Increment the unique episode counter
+        unique_episode_counter += 1
+
+            # Check if 100 unique episodes have been processed
+        if unique_episode_counter >= 100:
+            avg_reward = sum(rewards[-100:]) / 100  # Average of the last 100 rewards
+
+            print(f'\rEpisode {episode}\tAverage Score: {avg_reward:.2f}', end="")
+            reward_averages.append(avg_reward)
+            percentages.append(correct / total)
+
+                # Reset the unique episode counter
+            unique_episode_counter = 0
+        if episode % 500000 == 0:
+            print(f'\rEpisode {episode}\treward: {avg_reward}')
             print("Percentage: ", correct / total)
             fig, ax = plt.subplots(1, 3, figsize=(10, 5))
 
@@ -368,7 +388,7 @@ def perform_action(action, state, i, action_prbs):
     if action <= 3:
         for i, dl_bytes_value in enumerate(state):
             if dl_bytes_value > DL_BYTES_THRESHOLD[i]:
-                action_prbs[i] -= 5
+                action_prbs[i] -= 1
                 reward += 0
             else:
                 reward += dl_bytes_value
@@ -399,7 +419,7 @@ action_size = 7  # Actions: Increase PRB, Decrease PRB, Secure Slice
 agent = Agent(state_size, action_size, seed=0, DDQN=False)
 
 # With 1000 max_t mathematically every slice should become malicious in every episode at some point
-rewards, percent = dqn(n_episodes=1000000, max_t=3000, eps_start=1.0, eps_end=0.01, eps_decay=0.999, pth_file='checkpoint.pth')
+rewards, percent = dqn(n_episodes=1000000, max_t=3000, eps_start=1.0, eps_end=0.01, eps_decay=0.995, pth_file='checkpoint.pth')
 
 # Print test results
 print("Tests correct: " + str(percent[0]))
