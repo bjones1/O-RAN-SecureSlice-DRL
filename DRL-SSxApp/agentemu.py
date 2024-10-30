@@ -6,45 +6,11 @@
 # ## **Objective**
 # The objective is to maximize the overall throughput for all slices while ensuring minimum QoS agreements are met and maximum thresholds for each slice are upheld via secure slicing:
 
-# \[
-# \max_{T_1, T_2, T_3} \sum_{i=1}^{3} T_i
-# \]
-
-# where \( T_1 \), \( T_2 \), and \( T_3 \) represent the throughput for URLLC, eMBB, and Medium slices, respectively.
+# ![objective](../documentation/images/optproblem.png)
 
 # ## **Constraints**
 
-# The optimization problem is subject to the following constraints:
-
-# 1. **QoS Constraint for URLLC**: The throughput of URLLC must satisfy the ultra-reliable and low-latency requirement while being constrained by the minimum QoS threshold for the Medium slice:
-
-#    \[
-#    \theta_{\text{min}} < \text{QoS}_{\text{URLLC}}(T_1) < \theta_{\text{URLLC}},
-#    \]
-
-#    where \( \theta_{\text{URLLC}} \) is the minimum QoS threshold for the URLLC slice and \( \theta_{\text{min}} \) is the minimum QoS threshold for the Medium slice.
-
-# 2. **QoS Constraint for eMBB**: The throughput of eMBB must meet the enhanced broadband requirement:
-
-#    \[
-#    \text{QoS}_{\text{eMBB}}(T_2) \geq \theta_{\text{eMBB}}
-#    \]
-
-#    where \( \theta_{\text{eMBB}} \) is the minimum QoS threshold for the eMBB slice.
-
-# 3. **QoS Constraint for Medium Slice**: The throughput of the Medium slice must satisfy its QoS requirements, which are between URLLC and eMBB:
-
-#    \[
-#    \theta_{\text{URLLC}} \leq \text{QoS}_{\text{Medium}}(T_3) \leq \theta_{\text{eMBB}}.
-#    \]
-
-# 4. **Resource Allocation Constraint**: The total allocated resources (Physical Resource Blocks) for all slices cannot exceed the available resources \( R_{\text{total}} \):
-
-#    \[
-#    \sum_{i=1}^{3} R_i \leq R_{\text{total}},
-#    \]
-
-#    where \( R_i \) is the resource allocation for slice \( i \).
+# ![constraints](../documentation/images/constraints.png)
 
 # ## **Approach**
 
