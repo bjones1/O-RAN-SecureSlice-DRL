@@ -28,8 +28,6 @@
 # ## **Code**
 
 # ### **Imports**
-
-```python
 import torch
 import signal
 import sys
@@ -308,6 +306,7 @@ def dqn(n_episodes=1500, max_t=3000, eps_start=1.0, eps_end=0.01, eps_decay=0.99
         # Store the score and actions
         actions.append(temp)
 
+
         # Update the state lists with the current state
 
 
@@ -318,8 +317,8 @@ def dqn(n_episodes=1500, max_t=3000, eps_start=1.0, eps_end=0.01, eps_decay=0.99
         unique_episode_counter += 1
 
             # Check if 100 unique episodes have been processed
-        if unique_episode_counter >= 100:
-            avg_reward = sum(rewards[-100:]) / 100  # Average of the last 100 rewards
+        if unique_episode_counter >= 1000:
+            avg_reward = sum(rewards[-1000:]) / 1000  # Average of the last 100 rewards
 
             print(f'\rEpisode {episode}\tAverage Score: {avg_reward:.2f}', end="")
             reward_averages.append(avg_reward)
@@ -327,7 +326,7 @@ def dqn(n_episodes=1500, max_t=3000, eps_start=1.0, eps_end=0.01, eps_decay=0.99
 
                 # Reset the unique episode counter
             unique_episode_counter = 0
-        if episode % 500000 == 0:
+        if episode % 50000 == 0:
             print(f'\rEpisode {episode}\treward: {avg_reward}')
             print("Percentage: ", correct / total)
             fig, ax = plt.subplots(1, 3, figsize=(10, 5))
@@ -497,8 +496,14 @@ action_size = 7  # Actions: Increase PRB, Decrease PRB, Secure Slice
 agent = Agent(state_size, action_size, seed=0, DDQN=False)
 
 # With 1000 max_t mathematically every slice should become malicious in every episode at some point
-rewards, percent = dqn(n_episodes=1000000, max_t=3000, eps_start=1.0, eps_end=0.01, eps_decay=0.995, pth_file='checkpoint.pth')
+rewards, percent = dqn(n_episodes=50000, max_t=3000, eps_start=1.0, eps_end=0.01, eps_decay=0.997, pth_file='checkpoint.pth')
 
 # Print test results
 print("Tests correct: " + str(percent[0]))
 print("Tests incorrect: " + str(percent[1]))
+
+ # Save rewards to CSV after training
+rewards_df = pd.DataFrame(rewards, columns=["Reward"])
+rewards_df.to_csv("episode_rewards.csv", index=False)
+print("Rewards saved to episode_rewards.csv")
+
