@@ -496,7 +496,7 @@ action_size = 7  # Actions: Increase PRB, Decrease PRB, Secure Slice
 agent = Agent(state_size, action_size, seed=0, DDQN=False)
 
 # With 1000 max_t mathematically every slice should become malicious in every episode at some point
-rewards, percent = dqn(n_episodes=50000, max_t=3000, eps_start=1.0, eps_end=0.01, eps_decay=0.997, pth_file='checkpoint.pth')
+rewards, percent = dqn(n_episodes=1000000, max_t=3000, eps_start=1.0, eps_end=0.01, eps_decay=0.997, pth_file='checkpoint.pth')
 
 # Print test results
 print("Tests correct: " + str(percent[0]))
