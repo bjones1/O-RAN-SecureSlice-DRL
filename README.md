@@ -28,5 +28,5 @@ This project utilizes the CodeChat editor to facilitate a literate programming e
 4. **Run the DRL Agent**  
    Execute the DRL agent using either `emu` or `agent.py` in DRL-SSxApp/ to train the model within the specified environment.
 
-5.. **Model Checkpoints**  
+5. **Model Checkpoints**  
    Model checkpoints are saved automatically, allowing you to integrate the trained model into the loop for real-time performance evaluation.
