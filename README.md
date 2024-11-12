@@ -22,8 +22,11 @@ This project utilizes the CodeChat editor to facilitate a literate programming e
 2. **Deploy the xApp**  
    Deploy the xApp using the same set of instructions.
 
-3. **Run the DRL Agent**  
-   Execute the DRL agent using either `emu` or `agent.py` to train the model within the specified environment.
+3. **Install python depencencies with poetry**   
+   Run poetry install in the root directory of the repo to install the required depencencies to train the agent.
 
-4. **Model Checkpoints**  
+4. **Run the DRL Agent**  
+   Execute the DRL agent using either `emu` or `agent.py` in DRL-SSxApp/ to train the model within the specified environment.
+
+5.. **Model Checkpoints**  
    Model checkpoints are saved automatically, allowing you to integrate the trained model into the loop for real-time performance evaluation.

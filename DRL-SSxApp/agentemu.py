@@ -68,11 +68,11 @@ print(device)
 
 
 # ### **Hyperparameters and environment-specific constants**
-LR = 1e-4  # Learning Rate: Adjusts the model weights during training. Smaller values lead to slower training but more stable learning.
-BATCH_SIZE = 128  # Number of experiences processed in each training batch.
-BUFFER_SIZE = int(1e5)  # Size of the replay buffer, which stores past experiences for learning. Larger buffers can improve learning but require more memory.
-UPDATE_EVERY = 8  # How often to update the model parameters during training.
-TAU = 1e-4  # Soft update parameter for updating the target network. Determines how much of the local model's weights are copied to the target network.
+LR = 5e-4  # Slightly higher learning rate for faster convergence
+BATCH_SIZE = 256  # Larger batch size for more efficient updates
+BUFFER_SIZE = int(1e5)  # Keep buffer size the same if memory allows
+UPDATE_EVERY = 4  # More frequent updates
+TAU = 5e-4  # Faster soft updatesng the target network. Determines how much of the local model's weights are copied to the target network.
 
 # Constants for PRB and DL Bytes mapping and thresholds
 PRB_INC_RATE = 6877         # Determines how many Physical Resource Blocks (PRB) to increase when adjusting PRB allocation.
@@ -241,7 +241,7 @@ class ReplayBuffer:
 # The training process is repeated for a specified number of episodes.
 # The trained model is saved to a file.
 
-def dqn(n_episodes=1500, max_t=3000, eps_start=1.0, eps_end=0.01, eps_decay=0.995, pth_file='checkpoint.pth'):
+def dqn(n_episodes=1500, max_t=40, eps_start=1.0, eps_end=0.01, eps_decay=0.995, pth_file='checkpoint.pth'):
     """
     Train the DQN agent with specified parameters and save checkpoints.
     """
@@ -255,7 +255,7 @@ def dqn(n_episodes=1500, max_t=3000, eps_start=1.0, eps_end=0.01, eps_decay=0.99
     rewards = []
     total_prbs = [[],[],[]]
     dl_bytes = [[],[],[]]
-    action_prbs = [2830,910,70] # agent defined number of prbs for each state
+    action_prbs = [2897, 965, 96]
     total = 0
 
     total = 0
@@ -271,7 +271,7 @@ def dqn(n_episodes=1500, max_t=3000, eps_start=1.0, eps_end=0.01, eps_decay=0.99
         max_t = 0
         i = 1
         # assigned PRBs to each slice
-        action_prbs = [2830,910,70] # agent defined number of prbs for each state
+        action_prbs = [2897, 965, 96]
         global DL_BYTE_TO_PRB_RATES
         # number of DL bytes that each slice increases by per PRB
         DL_BYTE_TO_PRB_RATES = [6877, 6877, 6877]
@@ -300,7 +300,7 @@ def dqn(n_episodes=1500, max_t=3000, eps_start=1.0, eps_end=0.01, eps_decay=0.99
             max_t += 1  # Increment the timestep
             i += 1  # Increment the step counter
 
-        if episode % 100 == 0:  # Decay epsilon every 500 episodes
+        if episode % 1000 == 0:  # Decay epsilon every 500 episodes
             eps = max(eps_end, eps_decay * eps)
             
         # Store the score and actions
@@ -326,7 +326,7 @@ def dqn(n_episodes=1500, max_t=3000, eps_start=1.0, eps_end=0.01, eps_decay=0.99
 
                 # Reset the unique episode counter
             unique_episode_counter = 0
-        if episode % 50000 == 0:
+        if episode % 100000 == 0:
             print(f'\rEpisode {episode}\treward: {avg_reward}')
             print("Percentage: ", correct / total)
             fig, ax = plt.subplots(1, 3, figsize=(10, 5))
@@ -496,7 +496,7 @@ action_size = 7  # Actions: Increase PRB, Decrease PRB, Secure Slice
 agent = Agent(state_size, action_size, seed=0, DDQN=False)
 
 # With 1000 max_t mathematically every slice should become malicious in every episode at some point
-rewards, percent = dqn(n_episodes=1000000, max_t=3000, eps_start=1.0, eps_end=0.01, eps_decay=0.997, pth_file='checkpoint.pth')
+rewards, percent = dqn(n_episodes=500000, max_t=40, eps_start=1.0, eps_end=0.01, eps_decay=0.995, pth_file='checkpoint.pth')
 
 # Print test results
 print("Tests correct: " + str(percent[0]))
