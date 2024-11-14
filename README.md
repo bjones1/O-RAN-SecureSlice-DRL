@@ -30,3 +30,9 @@ This project utilizes the CodeChat editor to facilitate a literate programming e
 
 5. **Model Checkpoints**  
    Model checkpoints are saved automatically, allowing you to integrate the trained model into the loop for real-time performance evaluation.
+
+
+
+#### Similiar projects
+
+1. https://github.com/wineslab/ORANSlice
