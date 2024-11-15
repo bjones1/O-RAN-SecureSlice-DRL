@@ -4,78 +4,130 @@
 
 
 # ## **Objective**
-# The objective is to maximize the overall throughput for all slices by mapping resource blocks (RBs) while ensuring minimum QoS agreements are met and maximum thresholds for each slice are upheld via secure slicing: 
+#
+# The objective is to maximize the overall throughput for all slices by mapping
+# resource blocks (RBs) while ensuring minimum QoS agreements are met and
+# maximum thresholds for each slice are upheld via secure slicing:
 
-# $ \max_{T_1, T_2, T_3} \sum_{i=1}^{3} T_i $
+# $ \\max\_{T_1, T_2, T_3} \\sum\_{i=1}^{3} T_i $
 
-# where $ T_1 $, $ T_2 $, and $ T_3 $ represent the throughput for URLLC, eMBB, and Medium slices, respectively.
+# where $ T_1 $, $ T_2 $, and $ T_3 $ represent the throughput for URLLC, eMBB,
+# and Medium slices, respectively.
 
 # ## **Constraints**
 
 # The optimization problem is subject to the following constraints:
 
-# 1. **QoS Constraint for URLLC:** The throughput of URLLC must satisfy the ultra-reliable and low-latency requirement while being constrained by the minimum QoS threshold for the Medium slice. This can be expressed as: 
+# 1.  **QoS Constraint for URLLC:** The throughput of URLLC must satisfy the
+#     ultra-reliable and low-latency requirement while being constrained by the
+#     minimum QoS threshold for the Medium slice. This can be expressed as:
 
-# $ \theta_{\text{min}} < \text{QoS}\_{\text{URLLC}}(T_1) < \theta_{\text{URLLC}} $
+# $ \\theta\_{\\text{min}} < \\text{QoS}\_{\\text{URLLC}}(T_1) <
+# \\theta\_{\\text{URLLC}} $
 
-# where $ \theta_{\text{URLLC}} $ is the minimum QoS threshold for the URLLC slice and $ \theta_{\text{min}} $ is the minimum QoS threshold for the Medium slice.
+# where $ \\theta\_{\\text{URLLC}} $ is the minimum QoS threshold for the URLLC
+# slice and $ \\theta\_{\\text{min}} $ is the minimum QoS threshold for the
+# Medium slice.
 
-# 2. **QoS Constraint for eMBB:** The throughput of eMBB must meet the enhanced broadband requirement: 
+# 2.  **QoS Constraint for eMBB:** The throughput of eMBB must meet the enhanced
+#     broadband requirement:
 
-# $ \text{QoS}\_{\text{eMBB}}(T_2) \geq \theta_{\text{eMBB}} \quad \text{(high data rate requirement)} $
+# $ \\text{QoS}\_{\\text{eMBB}}(T_2) \\geq \\theta\_{\\text{eMBB}} \\quad
+# \\text{(high data rate requirement)} $
 
-# where $ \theta_{\text{eMBB}} $ is the minimum QoS threshold for the eMBB slice.
+# where $ \\theta\_{\\text{eMBB}} $ is the minimum QoS threshold for the eMBB
+# slice.
 
-# 3. **QoS Constraint for Medium Slice:** The throughput of the Medium slice must satisfy its QoS requirements, which is between URLLC and eMBB: 
+# 3.  **QoS Constraint for Medium Slice:** The throughput of the Medium slice
+#     must satisfy its QoS requirements, which is between URLLC and eMBB:
 
-# $ \theta_{\text{URLLC}} \leq \text{QoS}\_{\text{Medium}}(T_3) \leq \theta_{\text{eMBB}} $
+# $ \\theta\_{\\text{URLLC}} \\leq \\text{QoS}\_{\\text{Medium}}(T_3) \\leq
+# \\theta\_{\\text{eMBB}} $
 
-# 4. **Resource Allocation Constraint:** The total allocated resources (Physical Resource Blocks) for all slices cannot exceed the available resources $ R_{\text{total}} $: 
+# 4.  **Resource Allocation Constraint:** The total allocated resources
+#     (Physical Resource Blocks) for all slices cannot exceed the available
+#     resources $ R\_{\\text{total}} $:
 
-# $ \sum_{i=1}^{3} R_i \leq R_{\text{total}} $
+# $ \\sum\_{i=1}^{3} R_i \\leq R\_{\\text{total}} $
 
 # where $ R_i $ is the resource allocation for slice $ i $.
 
-# 5. **Secure Slicing Constraint:** All UEs in the slice must operate below the maximum threshold; otherwise, they are considered malicious and may compromise the resources of legitimate UEs. Let $ \tau_{\text{max}} $ represent the maximum allowable resource usage per UE. The constraint can be expressed as: 
+# 5.  **Secure Slicing Constraint:** All UEs in the slice must operate below the
+#     maximum threshold; otherwise, they are considered malicious and may
+#     compromise the resources of legitimate UEs. Let $ \\tau\_{\\text{max}} $
+#     represent the maximum allowable resource usage per UE. The constraint can
+#     be expressed as:
 
-# $ S_{u,i} < \tau_{\text{max}}, \quad \forall u \in U_i $
+# $ S\_{u,i} < \\tau\_{\\text{max}}, \\quad \\forall u \\in U_i $
 
-# where $ S_{u,i} $ is the resource usage for UE $ u $ in slice $ i $, and $ U_i $ is the set of UEs in slice $ i $.
+# where $ S\_{u,i} $ is the resource usage for UE $ u $ in slice $ i $, and $
+# U_i $ is the set of UEs in slice $ i $.
 
 # ## **Approach**
 
-# ![](../documentation/images/drl-ss-xapp-1.png)
+# <img style="float: left;" src="../documentation/images/drl-ss-xapp-1.png" alt="">
 
-# The diagram outlines a framework for allocating physical resource blocks (PRBs) among user equipment (UE) slices using a Deep Reinforcement Learning (DRL) agent in a secure slicing xApp environment.
+# The diagram outlines a framework for allocating physical resource blocks
+# (PRBs) among user equipment (UE) slices using a Deep Reinforcement Learning
+# (DRL) agent in a secure slicing xApp environment.
 
 # #### Key Components
-# - **DRL Agent**: Uses Key Performance Metrics (KPM) as input, actions for PRB reallocation, and network throughput as the reward. The agent's operations include:
+#
+# - **DRL Agent**: Uses Key Performance Metrics (KPM) as input, actions for PRB
+#   reallocation, and network throughput as the reward. The agent's operations
+#   include:
 #   - **State**: Input from KPM.
 #   - **Action**: Adjust PRB allocations.
 #   - **Reward**: Based on network throughput performance.
-# - **Slice Configurator**: Implements the DRL agent’s actions by reallocating PRBs to slices.
-# - **Secure Slicing xApp**: Executes resource adjustments and handles UE security.
-# - **UE Instances**: Devices bound to slices, with the potential to be moved to a secure slice if detected as malicious.
+# - **Slice Configurator**: Implements the DRL agent’s actions by reallocating
+#   PRBs to slices.
+# - **Secure Slicing xApp**: Executes resource adjustments and handles UE
+#   security.
+# - **UE Instances**: Devices bound to slices, with the potential to be moved to
+#   a secure slice if detected as malicious.
 # - **iperf3 Server**: Generates traffic in the Downlink for user traffic.
 
 # #### DRL Agent Actions
-# 1 - 3. **Increase PRBs**: Adds 5 PRBs if a slice's throughput is insufficient but below or equal to the SLA. Removes 5 PRB if throughput exceeds the SLA requirements and gives 0 reward for that episode.
-# 4. **Secure UE**: Moves UEs to a secure slice if malicious behavior is detected.
+#
+# 1 - 3. **Increase PRBs**: Adds 5 PRBs if a slice's throughput is insufficient
+# but below or equal to the SLA. Removes 5 PRB if throughput exceeds the SLA
+# requirements and gives 0 reward for that episode. 4. **Secure UE**: Moves UEs
+# to a secure slice if malicious behavior is detected.
 
 # #### Workflow
-# 1. The DRL agent receives real-time KPM data and adjusts PRBs through the Slice Configurator.
-# 2. The iperf3 server provides throughput feedback to guide resource allocation.
-# 3. A reward function evaluates actions to maximize UE throughput while ensuring fairness and preventing malicious activity.
+#
+# 1.  The DRL agent receives real-time KPM data and adjusts PRBs through the
+#     Slice Configurator.
+# 2.  The iperf3 server provides throughput feedback to guide resource
+#     allocation.
+# 3.  A reward function evaluates actions to maximize UE throughput while
+#     ensuring fairness and preventing malicious activity.
 
 # #### Security & Fairness
+#
 # - **Proportional Fairness**: Ensures balanced PRB allocation across slices.
-# - **Secure Slicing**: Isolates malicious UEs, allocating no PRBs to them, to protect network integrity.
+# - **Secure Slicing**: Isolates malicious UEs, allocating no PRBs to them, to
+#   protect network integrity.
 
 # ## **srsRAN Scheduling Breakdown and System Model**
 
 # ![](../documentation/images/ssxapp.png)
 
-# (Explanation of srsRAN Scheduling details)
+# In srsRAN 4G, the configuration provided maps resource blocks (RBs) based on
+# several key parameters. With SISO (Single Input, Single Output) and
+# transmission mode (TM1), the system allocates RBs across the physical layer
+# considering bandwidth (bw=10), which corresponds to a 10 MHz system, and the
+# subframe configuration. The scheduler assigns RBs dynamically based on user
+# demands, channel conditions, and available bandwidth. The MCS (modulation and
+# coding scheme) is set to automatic, allowing the system to adaptively select
+# the most efficient scheme. PDSCH and PUSCH are then mapped to these allocated
+# RBs for downlink and uplink transmissions, optimizing the use of the available
+# frequency-time resources.
+
+# We have 50 RBs in 10 MHz and 100 in 20 Mhz. We have alot more than this though
+# since they are virtualized for the purpose of the DRL-SSxApp.
+# https://github.com/openaicellular/srsRAN-e2/blob/master/srsenb/enb.conf.example
+
 
 # ## **Code**
 
@@ -99,21 +151,21 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print(device)
 
 
-# | Parameter             | Default Value | Description                                                                 | Try 1  |
-# |-----------------------|---------------|-----------------------------------------------------------------------------|--------| 
-# | `LR`                  | `3e-4`        | Learning Rate: Controls the step size during model weight updates.          | 
-# | `BATCH_SIZE`          | `128`         | num of experiences to sample from the replay buffer for each training batch.|
-# | `BUFFER_SIZE`         | `1e5`         | Size of the replay buffer that stores past experiences for learning.        |
-# | `UPDATE_EVERY`        | `8`           | Frequency of model parameter updates during training.                       |
-# | `TAU`                 | `1e-3`        | Soft update parameter for target network updates.                           |
-# | `EPISODE_MAX_TIMESTEP`| `300`         | Maximum number of timesteps per episode.                                    |
-# | `eps_start`           | `1.0`         | Initial value of epsilon for exploration vs. exploitation in action selectio|
-# | `eps_end`             | `0.01`        | Final value of epsilon after decay.                                         |
-# | `eps_decay`           | `0.995`       | Rate at which epsilon decays over time.                                     |
-# | `state_len`           | `8`           | Dimensionality of the state space.                                          |
-# | `action_len`          | `8`           | Dimensionality of the action space.                                         |
-# | `n_episodes`          | `1500`        | Number of episodes for training the agent.                                  |
-# | `max_t`               | `300`         | Maximum number of timesteps per episode.                                    |
+# | Parameter              | Default Value | Description                                                                  | Try 1 |
+# | ---------------------- | ------------- | ---------------------------------------------------------------------------- | ----- |
+# | `LR`                   | `3e-4`        | Learning Rate: Controls the step size during model weight updates.           |       |
+# | `BATCH_SIZE`           | `128`         | num of experiences to sample from the replay buffer for each training batch. |       |
+# | `BUFFER_SIZE`          | `1e5`         | Size of the replay buffer that stores past experiences for learning.         |       |
+# | `UPDATE_EVERY`         | `8`           | Frequency of model parameter updates during training.                        |       |
+# | `TAU`                  | `1e-3`        | Soft update parameter for target network updates.                            |       |
+# | `EPISODE_MAX_TIMESTEP` | `300`         | Maximum number of timesteps per episode.                                     |       |
+# | `eps_start`            | `1.0`         | Initial value of epsilon for exploration vs. exploitation in action selectio |       |
+# | `eps_end`              | `0.01`        | Final value of epsilon after decay.                                          |       |
+# | `eps_decay`            | `0.995`       | Rate at which epsilon decays over time.                                      |       |
+# | `state_len`            | `8`           | Dimensionality of the state space.                                           |       |
+# | `action_len`           | `8`           | Dimensionality of the action space.                                          |       |
+# | `n_episodes`           | `1500`        | Number of episodes for training the agent.                                   |       |
+# | `max_t`                | `300`         | Maximum number of timesteps per episode.                                     |       |
 
 
 
@@ -140,11 +192,16 @@ global unique_episode_counter
 
 
 # ### **Q-Network**
-# This class definition implements a Q-Network using PyTorch, which is a type of neural network used in reinforcement learning to approximate the Q-value function.
+#
+# This class definition implements a Q-Network using PyTorch, which is a type of
+# neural network used in reinforcement learning to approximate the Q-value
+# function.
 
 
-# __init__: Initializes the Q-Network with the given parameters and defines the layers of the network with ReLU activations.
-# forward: Performs a forward pass through the network, taking an input state and returning the predicted Q-values for each action.
+# **init**: Initializes the Q-Network with the given parameters and defines the
+# layers of the network with ReLU activations. forward: Performs a forward pass
+# through the network, taking an input state and returning the predicted
+# Q-values for each action.
 class QNetwork(nn.Module):
     """
     Q-Network for approximating the Q-value function.
@@ -170,15 +227,16 @@ class QNetwork(nn.Module):
         return self.l5(x)
 
  # ### **Agent**
- # 
- # The Agent class represents an agent that interacts with an environment and learns from it using a Q-learning approach.
+ #
+ # The Agent class represents an agent that interacts with an environment and
+ # learns from it using a Q-learning approach.
 
 
-# __init__: Initializes the agent with state and action lengths, seed, and DDQN flag.
-# step: Adds an experience to the replay buffer and updates the model.
-# act: Chooses an action using an epsilon-greedy policy.
-# learn: Updates the Q-network based on sampled experiences.
-# soft_update: Updates the target Q-network by interpolating between local and target models.
+# **init**: Initializes the agent with state and action lengths, seed, and DDQN
+# flag. step: Adds an experience to the replay buffer and updates the model.
+# act: Chooses an action using an epsilon-greedy policy. learn: Updates the
+# Q-network based on sampled experiences. soft_update: Updates the target
+# Q-network by interpolating between local and target models.
 
 
 class Agent():
@@ -241,12 +299,17 @@ class Agent():
             target_param.data.copy_(tau * local_param.data + (1.0 - tau) * target_param.data)
 
 # ### **Replay Buffer**
-# the ReplayBuffer class is used to store and sample experiences, which are used in reinforcement learning to train an agent
+#
+# the ReplayBuffer class is used to store and sample experiences, which are used
+# in reinforcement learning to train an agent
 
-# init: Initializes the buffer with the specified action size, buffer size, and batch size. It also creates a named tuple called Experience to store the state, action, reward, next state, and done information.
-# add: Adds a new experience to the buffer. The experience is represented by a named tuple.
-# sample: Samples a batch of experiences from the buffer. It randomly selects batch_size number of experiences and converts them into torch tensors.
-# len: Returns the number of experiences in the buffer.
+# init: Initializes the buffer with the specified action size, buffer size, and
+# batch size. It also creates a named tuple called Experience to store the
+# state, action, reward, next state, and done information. add: Adds a new
+# experience to the buffer. The experience is represented by a named tuple.
+# sample: Samples a batch of experiences from the buffer. It randomly selects
+# batch_size number of experiences and converts them into torch tensors. len:
+# Returns the number of experiences in the buffer.
 
 class ReplayBuffer:
     """
@@ -280,18 +343,23 @@ class ReplayBuffer:
         return len(self.memory)
 
 # ### **Training Function**
-# This is a Deep Q-Network (DQN) training function in Python. It trains an agent to make decisions in an environment with the goal of maximizing a reward signal. The function takes in several parameters that control the training process, such as the number of episodes, maximum timesteps, and exploration rate.
+#
+# This is a Deep Q-Network (DQN) training function in Python. It trains an agent
+# to make decisions in an environment with the goal of maximizing a reward
+# signal. The function takes in several parameters that control the training
+# process, such as the number of episodes, maximum timesteps, and exploration
+# rate.
 
 
-# Initializes the agent, environment, and training parameters.
-# Loops through episodes, with each episode consisting of a sequence of timesteps.
-# At each timestep, the agent chooses an action based on the current state and exploration rate.
-# The environment responds with a reward and next state.
-# The agent updates its experience buffer with the current state, action, reward, and next state.
-# The agent updates its Q-network using the experience buffer.
-# The exploration rate is decayed over time to encourage exploitation.
-# The training process is repeated for a specified number of episodes.
-# The trained model is saved to a file.
+# Initializes the agent, environment, and training parameters. Loops through
+# episodes, with each episode consisting of a sequence of timesteps. At each
+# timestep, the agent chooses an action based on the current state and
+# exploration rate. The environment responds with a reward and next state. The
+# agent updates its experience buffer with the current state, action, reward,
+# and next state. The agent updates its Q-network using the experience buffer.
+# The exploration rate is decayed over time to encourage exploitation. The
+# training process is repeated for a specified number of episodes. The trained
+# model is saved to a file.
 
 def dqn(n_episodes=1500, max_t=3, eps_start=1.0, eps_end=0.01, eps_decay=0.995, pth_file='checkpoint.pth'):
     """
@@ -307,7 +375,7 @@ def dqn(n_episodes=1500, max_t=3, eps_start=1.0, eps_end=0.01, eps_decay=0.995, 
     rewards = []
     total_prbs = [[],[],[]]
     dl_bytes = [[],[],[]]
-  #  action_prbs = [2897, 965, 96]
+  # action_prbs = \[2897, 965, 96\]
     action_prbs = [2897, 965, 91]   # eMBB, Medium, URLL
     total = 0
 
@@ -324,7 +392,7 @@ def dqn(n_episodes=1500, max_t=3, eps_start=1.0, eps_end=0.01, eps_decay=0.995, 
         max_t = 0
         i = 1
         # assigned PRBs to each slice
-       # action_prbs = [2897, 965, 96]
+       # action_prbs = \[2897, 965, 96\]
         action_prbs = [2897, 965, 91]  # eMBB, Medium, URLLC
 
         global DL_BYTE_TO_PRB_RATES
@@ -411,7 +479,9 @@ def dqn(n_episodes=1500, max_t=3, eps_start=1.0, eps_end=0.01, eps_decay=0.995, 
 
 # ### **Create Data Frames**
 
-# This code reads CSV files from three directories (Embb, Medium, Urllc) into lists of Pandas data frames, calculates the number of data frames and their lengths, and returns the data frames and their lengths.
+# This code reads CSV files from three directories (Embb, Medium, Urllc) into
+# lists of Pandas data frames, calculates the number of data frames and their
+# lengths, and returns the data frames and their lengths.
 def create_df():  # Creates a data frame for each slice
     """
     Creates data frames for each slice type (eMBB, Medium, UrLLC) by reading in csv files from the respective directories.
@@ -451,7 +521,14 @@ def create_df():  # Creates a data frame for each slice
     return (df, dfFileLen)
 
 # ### **Get State**
-# This function, get_state, simulates a state in a network slicing environment by randomly selecting data from three types of slices (eMBB, Medium, and UrLLC) and calculating the number of Physical Resource Blocks (PRBs) based on the selected data and a set of predefined rates (DL_BYTE_TO_PRB_RATES). The function also introduces a chance of one slice becoming "malicious" and increasing its DL bytes. The function returns the calculated PRBs for each slice.
+#
+# This function, get_state, simulates a state in a network slicing environment
+# by randomly selecting data from three types of slices (eMBB, Medium, and
+# UrLLC) and calculating the number of Physical Resource Blocks (PRBs) based on
+# the selected data and a set of predefined rates (DL_BYTE_TO_PRB_RATES). The
+# function also introduces a chance of one slice becoming "malicious" and
+# increasing its DL bytes. The function returns the calculated PRBs for each
+# slice.
 def get_state(df, df_file_len, action_prbs):
     # Randomly select one file from each slice type
     randEmbbFile = np.random.randint(0, EMBB_DF_SIZE)
@@ -463,10 +540,10 @@ def get_state(df, df_file_len, action_prbs):
     randMediumData = df[1][randMediumFile].iloc[np.random.randint(0, df_file_len[1][randMediumFile])]
     randUrllcData = df[2][randUrllcFile].iloc[np.random.randint(0, df_file_len[2][randUrllcFile])]
 
-    # Print column names for debugging
-    # print("Embb columns:", df[0][randEmbbFile].columns)
-    # print("Medium columns:", df[1][randMediumFile].columns)
-    # print("Urllc columns:", df[2][randUrllcFile].columns)
+    # Print column names for debugging print("Embb columns:",
+    # df\[0\]\[randEmbbFile\].columns) print("Medium columns:",
+    # df\[1\]\[randMediumFile\].columns) print("Urllc columns:",
+    # df\[2\]\[randUrllcFile\].columns)
 
     # Ensure columns exist and handle missing columns gracefully
     embb_bytes = float(randEmbbData.get('dl_bytes', 0))
@@ -478,18 +555,16 @@ def get_state(df, df_file_len, action_prbs):
     urllc_bytes = float(randUrllcData.get('dl_bytes', 0))
     #urllc_prbs = float(randUrllcData.get('dl_prbs', 1))
 
-    # Every time step there is a chance one slice becomes malicous (small)
-    # if a slice is malicous the DL bytes will go way above the threashold
+    # Every time step there is a chance one slice becomes malicous (small) if a
+    # slice is malicous the DL bytes will go way above the threashold
     chance = random.randint(0,500)
 
 
     global DL_BYTE_TO_PRB_RATES
     if chance == 100:
         DL_BYTE_TO_PRB_RATES[0] *= 10
-    # elif chance == 2000:
-    #     DL_BYTE_TO_PRB_RATES[1] *= 10
-    # elif chance == 3000:
-    #     DL_BYTE_TO_PRB_RATES[2] *= 10
+    # elif chance == 2000: DL_BYTE_TO_PRB_RATES\[1\] \*= 10 elif chance == 3000:
+    # DL_BYTE_TO_PRB_RATES\[2\] \*= 10
 
 
 
@@ -501,10 +576,11 @@ def get_state(df, df_file_len, action_prbs):
 
 # ### **Perform Action**
 #
-#    Simulates the outcome of taking an action in a given state.
+# Simulates the outcome of taking an action in a given state.
 
-#   Actions 1-3: Adjust action_prbs based on state, incresaing prbs if the slice is operating within its SLA.
-#    Actions 4-6: Set specific action_prbs to 0, this secures slices operating over SLA and rewards agent for doing so.
+# Actions 1-3: Adjust action_prbs based on state, incresaing prbs if the slice
+# is operating within its SLA. Actions 4-6: Set specific action_prbs to 0, this
+# secures slices operating over SLA and rewards agent for doing so.
 
 
 
@@ -523,8 +599,7 @@ def perform_action(action, state, i, action_prbs):
     if action < 3:
         for i, dl_bytes_value in enumerate(state):
             if action <=2:
-                # if action_prbs[action] == 0:
-                #     reward += 0
+                # if action_prbs\[action\] == 0: reward += 0
 
                 action_prbs[action] += 5 #essentially we are mapping 5 more resource blocks to each slice the 3 UEs are in which is 5*6877 (DRL to PRB mapping). This is so we can speed up the increase of resources.
                 if dl_bytes_value > DL_BYTES_THRESHOLD[i]:
@@ -554,7 +629,8 @@ action_size = 4  # Actions: Increase PRB, Decrease PRB, Secure Slice
 # Initialize the agent
 agent = Agent(state_size, action_size, seed=0, DDQN=False)
 
-# With 1000 max_t mathematically every slice should become malicious in every episode at some point
+# With 1000 max_t mathematically every slice should become malicious in every
+# episode at some point
 rewards, percent = dqn(n_episodes=300000, max_t=4, eps_start=1.0, eps_end=0.01, eps_decay=0.99, pth_file='checkpoint.pth')
 
 # Print test results
@@ -572,15 +648,16 @@ print("Rewards saved to episode_rewards.csv")
 
 # DQN:
 
-# # ### **Hyperparameters and environment-specific constants**
-# LR = 1e-4  
-# BATCH_SIZE = 32  
-# BUFFER_SIZE = int(1e5)  
-# UPDATE_EVERY = 4  
-# TAU = 5e-4  
+# # \### **Hyperparameters and environment-specific constants**
+#
+# LR = 1e-4\
+# BATCH_SIZE = 32\
+# BUFFER_SIZE = int(1e5)\
+# UPDATE_EVERY = 4\
+# TAU = 5e-4
 
-# action_prbs = [2897, 965, 91]
-#         if episode % 400 == 0:  # Decay epsilon every 400 episodes
+# action_prbs = \[2897, 965, 91\] if episode % 400 == 0: # Decay epsilon every
+# 400 episodes
 
 # final average reward 26444471
 
@@ -588,4 +665,26 @@ print("Rewards saved to episode_rewards.csv")
 # ![image](../documentation/images/DQN.png)
 
 
-# DDQN: 
+
+
+
+
+
+# DDQN:
+
+# # \### **Hyperparameters and environment-specific constants**
+#
+# LR = 1e-4\
+# BATCH_SIZE = 32\
+# BUFFER_SIZE = int(1e5)\
+# UPDATE_EVERY = 4\
+# TAU = 5e-4
+
+# action_prbs = \[2897, 965, 91\] if episode % 400 == 0: # Decay epsilon every
+# 400 episodes
+
+# final average reward 26043123
+
+
+
+# ![image](../documentation/images/DDQN.png)
