@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# # agentemu.py -- DRL-SSxApp Emulator for Training an Agent with Captured Data from 3 Network Slices
+#
 
 
 # ## **Objective**
@@ -65,7 +65,7 @@
 
 # ## **Approach**
 
-# <img style="float: left;" src="../documentation/images/drl-ss-xapp-1.png" alt="">
+# ![](../documentation/images/drl-ss-xapp-1.png)
 
 # The diagram outlines a framework for allocating physical resource blocks
 # (PRBs) among user equipment (UE) slices using a Deep Reinforcement Learning
@@ -688,3 +688,20 @@ print("Rewards saved to episode_rewards.csv")
 
 
 # ![image](../documentation/images/DDQN.png)
+
+
+# Dueling DQN
+
+
+# # \### **Hyperparameters and environment-specific constants**
+#
+# LR = 1e-4\
+# BATCH_SIZE = 32\
+# BUFFER_SIZE = int(1e5)\
+# UPDATE_EVERY = 4\
+# TAU = 5e-4
+
+# action_prbs = \[2897, 965, 91\] if episode % 400 == 0: # Decay epsilon every
+# 400 episodes
+
+# final average reward 25155529

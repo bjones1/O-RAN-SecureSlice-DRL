@@ -316,7 +316,7 @@ def dqn(n_episodes=1500, max_t=3, eps_start=1.0, eps_end=0.01, eps_decay=0.995, 
     total_prbs = [[],[],[]]
     dl_bytes = [[],[],[]]
   #  action_prbs = [2897, 965, 96]
-    action_prbs = [2897, 965, 91]   # eMBB, Medium, URLL
+    action_prbs = [2897, 965, 91]  # eMBB, Medium, URLL make the connection between this and 100 RB for 20 Mhz in LTE.
     total = 0
 
     total = 0
@@ -389,7 +389,7 @@ def dqn(n_episodes=1500, max_t=3, eps_start=1.0, eps_end=0.01, eps_decay=0.995, 
 
                 # Reset the unique episode counter
             unique_episode_counter = 0
-        if episode % 300000 == 0:
+        if episode % 350000 == 0:
             print(f'\rEpisode {episode}\treward: {avg_reward}')
             print("Percentage: ", correct / total)
             fig, ax = plt.subplots(1, 3, figsize=(10, 5))
@@ -563,7 +563,7 @@ action_size = 4  # Actions: Increase PRB, Decrease PRB, Secure Slice
 agent = Agent(state_size, action_size, seed=0, DDQN=True)
 
 # With 1000 max_t mathematically every slice should become malicious in every episode at some point
-rewards, percent = dqn(n_episodes=300000, max_t=4, eps_start=1.0, eps_end=0.01, eps_decay=0.99, pth_file='checkpoint.pth')
+rewards, percent = dqn(n_episodes=350000, max_t=4, eps_start=1.0, eps_end=0.01, eps_decay=0.99, pth_file='checkpoint.pth')
 
 # Print test results
 print("Tests correct: " + str(percent[0]))
