@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 #
 
 
@@ -139,11 +140,14 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 import numpy as np
-import random
 import pandas as pd
+import random
 import matplotlib.pyplot as plt
 from collections import namedtuple, deque
 import os
+
+# For the get_state function
+from common import get_state, perform_action
 
 # ### **Hyperparameters and Constants**
 
@@ -202,13 +206,13 @@ global unique_episode_counter
 # layers of the network with ReLU activations. forward: Performs a forward pass
 # through the network, taking an input state and returning the predicted
 # Q-values for each action.
-class QNetwork(nn.Module):
+class DQN_QNetwork(nn.Module):
     """
     Q-Network for approximating the Q-value function.
     The Q-network predicts Q-values for each action given a state.
     """
     def __init__(self, state_len, action_len, seed, layer1_size=128, layer2_size=128, layer3_size=128, layer4_size=128):
-        super(QNetwork, self).__init__()
+        super(DQN_QNetwork, self).__init__()
         self.seed = torch.manual_seed(seed)
 
         # Define the layers of the Q-network with ReLU activations
@@ -239,7 +243,7 @@ class QNetwork(nn.Module):
 # Q-network by interpolating between local and target models.
 
 
-class Agent():
+class DQN():
     """
     Agent that interacts with the environment and learns from it using a Q-learning approach.
     """
@@ -249,10 +253,10 @@ class Agent():
         self.seed = random.seed(seed)
 
         # Initialize the local and target Q-networks
-        self.qnetwork_local = QNetwork(state_len, action_len, seed).to(device)
-        self.qnetwork_target = QNetwork(state_len, action_len, seed).to(device)
+        self.qnetwork_local = DQN_QNetwork(state_len, action_len, seed).to(device)
+        self.qnetwork_target = DQN_QNetwork(state_len, action_len, seed).to(device)
         self.optimizer = optim.Adam(self.qnetwork_local.parameters(), lr=LR)
-        self.memory = ReplayBuffer(action_len, BUFFER_SIZE, BATCH_SIZE)
+        self.memory = DQN_ReplayBuffer(action_len, BUFFER_SIZE, BATCH_SIZE)
         self.t_step = 0
         self.DDQN = DDQN
 
@@ -300,7 +304,7 @@ class Agent():
 
 # ### **Replay Buffer**
 #
-# the ReplayBuffer class is used to store and sample experiences, which are used
+# the DQN_ReplayBuffer class is used to store and sample experiences, which are used
 # in reinforcement learning to train an agent
 
 # init: Initializes the buffer with the specified action size, buffer size, and
@@ -311,7 +315,7 @@ class Agent():
 # batch_size number of experiences and converts them into torch tensors. len:
 # Returns the number of experiences in the buffer.
 
-class ReplayBuffer:
+class DQN_ReplayBuffer:
     """
     Replay Buffer for storing and sampling experiences.
     """
@@ -361,7 +365,7 @@ class ReplayBuffer:
 # training process is repeated for a specified number of episodes. The trained
 # model is saved to a file.
 
-def dqn(n_episodes=1500, max_t=3, eps_start=1.0, eps_end=0.01, eps_decay=0.995, pth_file='checkpoint.pth'):
+def run_dqn(agent, n_episodes=1500, max_t=3, eps_start=1.0, eps_end=0.01, eps_decay=0.995, pth_file='checkpoint.pth', malicious_chance=1000, malicious_chance_increase=0.0):
     """
     Train the DQN agent with specified parameters and save checkpoints.
     """
@@ -369,7 +373,6 @@ def dqn(n_episodes=1500, max_t=3, eps_start=1.0, eps_end=0.01, eps_decay=0.995, 
     unique_episode_counter = 0
 
     eps = eps_start  # Initialize epsilon (exploration rate)
-    df, df_file_len = create_df()  # Create the dataframes for each slice and get their lengths
 
     actions = [] 
     rewards = []
@@ -400,7 +403,7 @@ def dqn(n_episodes=1500, max_t=3, eps_start=1.0, eps_end=0.01, eps_decay=0.995, 
         DL_BYTE_TO_PRB_RATES = [6877, 6877, 6877]
 
     
-        next_state = get_state(df, df_file_len, action_prbs)  # Get the initial state from the dataframes
+        next_state = get_state(action_prbs, DL_BYTE_TO_PRB_RATES, malicious_chance)  # Get the initial state from the dataframes
         while not done and max_t < EPISODE_MAX_TIMESTEP:
             total += 1
             state = next_state
@@ -411,12 +414,13 @@ def dqn(n_episodes=1500, max_t=3, eps_start=1.0, eps_end=0.01, eps_decay=0.995, 
                 total_prbs[i].append(prb_value)
                 dl_bytes[i].append(state[i])
 
-            reward, done, action_prbs = perform_action(action, state, i, action_prbs)
+            reward, done, action_prbs = perform_action(action, state, i, action_prbs, DL_BYTES_THRESHOLD)
             actions.append(action)
             rewards.append(reward)
             if reward > 0:
                 correct += 1
-            next_state = get_state(df, df_file_len, action_prbs)  # Get the initial state from the dataframes
+            malicious_chance += malicious_chance_increase
+            next_state = get_state(action_prbs, DL_BYTE_TO_PRB_RATES, malicious_chance)  # Get the initial state from the dataframes
             agent.step(state, action, reward, next_state, done)  # Update the agent with the experience
 
             # Update the score with the reward
@@ -482,165 +486,8 @@ def dqn(n_episodes=1500, max_t=3, eps_start=1.0, eps_end=0.01, eps_decay=0.995, 
 # This code reads CSV files from three directories (Embb, Medium, Urllc) into
 # lists of Pandas data frames, calculates the number of data frames and their
 # lengths, and returns the data frames and their lengths.
-def create_df():  # Creates a data frame for each slice
-    """
-    Creates data frames for each slice type (eMBB, Medium, UrLLC) by reading in csv files from the respective directories.
-    Returns a list of data frames and their corresponding lengths.
-    """
-    encoding = 'utf-8'
-    # List CSV files from the specified directories for each slice type
-    embbFiles = os.listdir('Slicing_UE_Data/Embb/')
-    mediumFiles = os.listdir('Slicing_UE_Data/Medium/')
-    urllcFiles = os.listdir('Slicing_UE_Data/Urllc/')
-
-     # Read each CSV file into a list of data frames for each slice type
-    dfEmbb = [pd.read_csv(f'Slicing_UE_Data/Embb/{file}', encoding=encoding) for file in embbFiles]
-    dfMedium = [pd.read_csv(f'Slicing_UE_Data/Medium/{file}', encoding=encoding) for file in mediumFiles]
-    dfUrllc = [pd.read_csv(f'Slicing_UE_Data/Urllc/{file}', encoding=encoding) for file in urllcFiles]
-
-    # Define global variables to store the size of data frames
-    global EMBB_DF_SIZE
-    global MEDIUM_DF_SIZE
-    global URLLC_DF_SIZE
-
-    # Calculate the number of data frames for each slice type
-    EMBB_DF_SIZE = len(dfEmbb)
-    MEDIUM_DF_SIZE = len(dfMedium)
-    URLLC_DF_SIZE = len(dfUrllc)
-
-    # Calculate the length of each data frame in the lists
-    embbFileLen = [len(fileDf) for fileDf in dfEmbb]
-    mediumFileLen = [len(fileDf) for fileDf in dfMedium]
-    urllcFileLen = [len(fileDf) for fileDf in dfUrllc]
-
-    # Compact data frames and their lengths into lists
-    df = [dfEmbb, dfMedium, dfUrllc]
-    dfFileLen = [embbFileLen, mediumFileLen, urllcFileLen]
-
-    # Return the data frames and their lengths
-    return (df, dfFileLen)
-
-# ### **Get State**
-#
-# This function, get_state, simulates a state in a network slicing environment
-# by randomly selecting data from three types of slices (eMBB, Medium, and
-# UrLLC) and calculating the number of Physical Resource Blocks (PRBs) based on
-# the selected data and a set of predefined rates (DL_BYTE_TO_PRB_RATES). The
-# function also introduces a chance of one slice becoming "malicious" and
-# increasing its DL bytes. The function returns the calculated PRBs for each
-# slice.
-def get_state(df, df_file_len, action_prbs):
-    # Randomly select one file from each slice type
-    randEmbbFile = np.random.randint(0, EMBB_DF_SIZE)
-    randMediumFile = np.random.randint(0, MEDIUM_DF_SIZE)
-    randUrllcFile = np.random.randint(0, URLLC_DF_SIZE)
-
-    # Randomly select one row from the chosen file for each slice type
-    randEmbbData = df[0][randEmbbFile].iloc[np.random.randint(0, df_file_len[0][randEmbbFile])]
-    randMediumData = df[1][randMediumFile].iloc[np.random.randint(0, df_file_len[1][randMediumFile])]
-    randUrllcData = df[2][randUrllcFile].iloc[np.random.randint(0, df_file_len[2][randUrllcFile])]
-
-    # Print column names for debugging print("Embb columns:",
-    # df\[0\]\[randEmbbFile\].columns) print("Medium columns:",
-    # df\[1\]\[randMediumFile\].columns) print("Urllc columns:",
-    # df\[2\]\[randUrllcFile\].columns)
-
-    # Ensure columns exist and handle missing columns gracefully
-    embb_bytes = float(randEmbbData.get('dl_bytes', 0))
-    #embb_prbs = float(randEmbbData.get('dl_prbs', 1))
-    
-    medium_bytes = float(randMediumData.get('dl_bytes', 0))
-    #medium_prbs = float(randMediumData.get('dl_prbs', 1))
-    
-    urllc_bytes = float(randUrllcData.get('dl_bytes', 0))
-    #urllc_prbs = float(randUrllcData.get('dl_prbs', 1))
-
-    # Every time step there is a chance one slice becomes malicous (small) if a
-    # slice is malicous the DL bytes will go way above the threashold
-    chance = random.randint(0,500)
 
 
-    global DL_BYTE_TO_PRB_RATES
-    if chance == 100:
-        DL_BYTE_TO_PRB_RATES[0] *= 10
-    # elif chance == 2000: DL_BYTE_TO_PRB_RATES\[1\] \*= 10 elif chance == 3000:
-    # DL_BYTE_TO_PRB_RATES\[2\] \*= 10
-
-
-
-
-    return [DL_BYTE_TO_PRB_RATES[0] * action_prbs[0],
-            DL_BYTE_TO_PRB_RATES[1] * action_prbs[1],
-            DL_BYTE_TO_PRB_RATES[2] * action_prbs[2]]
-
-
-# ### **Perform Action**
-#
-# Simulates the outcome of taking an action in a given state.
-
-# Actions 1-3: Adjust action_prbs based on state, incresaing prbs if the slice
-# is operating within its SLA. Actions 4-6: Set specific action_prbs to 0, this
-# secures slices operating over SLA and rewards agent for doing so.
-
-
-
-def perform_action(action, state, i, action_prbs):
-
-
-    reward = 0
-    done = False
-    next_state = np.copy(state)
-    if sum(action_prbs) == 0:
-        done = True
-        return reward, done, action_prbs
-    if reward == 27253551:
-        done = True #max reward achieved.
-        return reward, done, action_prbs
-    if action < 3:
-        for i, dl_bytes_value in enumerate(state):
-            if action <=2:
-                # if action_prbs\[action\] == 0: reward += 0
-
-                action_prbs[action] += 5 #essentially we are mapping 5 more resource blocks to each slice the 3 UEs are in which is 5*6877 (DRL to PRB mapping). This is so we can speed up the increase of resources.
-                if dl_bytes_value > DL_BYTES_THRESHOLD[i]:
-                    action_prbs[i] -= 5
-                    reward += 0
-                else:
-                    reward += dl_bytes_value
-                    #reward /= len(state)
-        
-
-
-    else:
-        action_prbs[action - 3] = 0
-        if state[action - 3] > DL_BYTES_THRESHOLD[action - 3]:
-            reward += max(state)
-        else:
-            reward += 0
-    
-
-
-    return reward, done, action_prbs
-
-# Define the state size and action size for the agen10100,t
-state_size = 3
-action_size = 4  # Actions: Increase PRB, Decrease PRB, Secure Slice
-
-# Initialize the agent
-agent = Agent(state_size, action_size, seed=0, DDQN=False)
-
-# With 1000 max_t mathematically every slice should become malicious in every
-# episode at some point
-rewards, percent = dqn(n_episodes=300000, max_t=4, eps_start=1.0, eps_end=0.01, eps_decay=0.99, pth_file='checkpoint.pth')
-
-# Print test results
-print("Tests correct: " + str(percent[0]))
-print("Tests incorrect: " + str(percent[1]))
-
- # Save rewards to CSV after training
-rewards_df = pd.DataFrame(rewards, columns=["Reward"])
-rewards_df.to_csv("episode_rewards.csv", index=False)
-print("Rewards saved to episode_rewards.csv")
 
 
 
