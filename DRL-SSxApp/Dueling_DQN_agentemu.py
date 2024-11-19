@@ -3,80 +3,6 @@
 # # agentemu.py -- DRL-SSxApp Emulator for Training an DQN_Dueling with Captured Data from 3 Network Slices
 
 
-# ## **Objective**
-# The objective is to maximize the overall throughput for all slices by mapping resource blocks (RBs) while ensuring minimum QoS agreements are met and maximum thresholds for each slice are upheld via secure slicing: 
-
-# $ \max_{T_1, T_2, T_3} \sum_{i=1}^{3} T_i $
-
-# where $ T_1 $, $ T_2 $, and $ T_3 $ represent the throughput for URLLC, eMBB, and Medium slices, respectively.
-
-# ## **Constraints**
-
-# The optimization problem is subject to the following constraints:
-
-# 1. **QoS Constraint for URLLC:** The throughput of URLLC must satisfy the ultra-reliable and low-latency requirement while being constrained by the minimum QoS threshold for the Medium slice. This can be expressed as: 
-
-# $ \theta_{\text{min}} < \text{QoS}\_{\text{URLLC}}(T_1) < \theta_{\text{URLLC}} $
-
-# where $ \theta_{\text{URLLC}} $ is the minimum QoS threshold for the URLLC slice and $ \theta_{\text{min}} $ is the minimum QoS threshold for the Medium slice.
-
-# 2. **QoS Constraint for eMBB:** The throughput of eMBB must meet the enhanced broadband requirement: 
-
-# $ \text{QoS}\_{\text{eMBB}}(T_2) \geq \theta_{\text{eMBB}} \quad \text{(high data rate requirement)} $
-
-# where $ \theta_{\text{eMBB}} $ is the minimum QoS threshold for the eMBB slice.
-
-# 3. **QoS Constraint for Medium Slice:** The throughput of the Medium slice must satisfy its QoS requirements, which is between URLLC and eMBB: 
-
-# $ \theta_{\text{URLLC}} \leq \text{QoS}\_{\text{Medium}}(T_3) \leq \theta_{\text{eMBB}} $
-
-# 4. **Resource Allocation Constraint:** The total allocated resources (Physical Resource Blocks) for all slices cannot exceed the available resources $ R_{\text{total}} $: 
-
-# $ \sum_{i=1}^{3} R_i \leq R_{\text{total}} $
-
-# where $ R_i $ is the resource allocation for slice $ i $.
-
-# 5. **Secure Slicing Constraint:** All UEs in the slice must operate below the maximum threshold; otherwise, they are considered malicious and may compromise the resources of legitimate UEs. Let $ \tau_{\text{max}} $ represent the maximum allowable resource usage per UE. The constraint can be expressed as: 
-
-# $ S_{u,i} < \tau_{\text{max}}, \quad \forall u \in U_i $
-
-# where $ S_{u,i} $ is the resource usage for UE $ u $ in slice $ i $, and $ U_i $ is the set of UEs in slice $ i $.
-
-# ## **Approach**
-
-# ![](../documentation/images/drl-ss-xapp-1.png)
-
-# The diagram outlines a framework for allocating physical resource blocks (PRBs) among user equipment (UE) slices using a Deep Reinforcement Learning (DRL) agent in a secure slicing xApp environment.
-
-# #### Key Components
-# - **DRL DQN_Dueling**: Uses Key Performance Metrics (KPM) as input, actions for PRB reallocation, and network throughput as the reward. The agent's operations include:
-#   - **State**: Input from KPM.
-#   - **Action**: Adjust PRB allocations.
-#   - **Reward**: Based on network throughput performance.
-# - **Slice Configurator**: Implements the DRL agent’s actions by reallocating PRBs to slices.
-# - **Secure Slicing xApp**: Executes resource adjustments and handles UE security.
-# - **UE Instances**: Devices bound to slices, with the potential to be moved to a secure slice if detected as malicious.
-# - **iperf3 Server**: Generates traffic in the Downlink for user traffic.
-
-# #### DRL DQN_Dueling Actions
-# 1 - 3. **Increase PRBs**: Adds 5 PRBs if a slice's throughput is insufficient but below or equal to the SLA. Removes 5 PRB if throughput exceeds the SLA requirements and gives 0 reward for that episode.
-# 4. **Secure UE**: Moves UEs to a secure slice if malicious behavior is detected.
-
-# #### Workflow
-# 1. The DRL agent receives real-time KPM data and adjusts PRBs through the Slice Configurator.
-# 2. The iperf3 server provides throughput feedback to guide resource allocation.
-# 3. A reward function evaluates actions to maximize UE throughput while ensuring fairness and preventing malicious activity.
-
-# #### Security & Fairness
-# - **Proportional Fairness**: Ensures balanced PRB allocation across slices.
-# - **Secure Slicing**: Isolates malicious UEs, allocating no PRBs to them, to protect network integrity.
-
-# ## **srsRAN Scheduling Breakdown and System Model**
-
-# ![](../documentation/images/ssxapp.png)
-
-# (Explanation of srsRAN Scheduling details)
-
 # ## **Code**
 
 # ### **Imports**
@@ -479,24 +405,4 @@ def create_df():  # Creates a data frame for each slice
 
 
 
-# ### Results
 
-# DQN:
-
-# # ### **Hyperparameters and environment-specific constants**
-# LR = 1e-4  
-# BATCH_SIZE = 32  
-# BUFFER_SIZE = int(1e5)  
-# UPDATE_EVERY = 4  
-# TAU = 5e-4  
-
-# action_prbs = [2897, 965, 91]
-#         if episode % 400 == 0:  # Decay epsilon every 400 episodes
-
-# final average reward 26444471
-
-
-# ![image](../documentation/images/DQN.png)
-
-
-# DDQN: 
