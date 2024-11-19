@@ -334,7 +334,7 @@ def run_dueling(agent, n_episodes=1500, max_t=3, eps_start=1.0, eps_end=0.01, ep
 
                 # Reset the unique episode counter
             unique_episode_counter = 0
-        if episode % 350000 == 0:
+        if episode % 60000 == 0:
             print(f'\rEpisode {episode}\treward: {avg_reward}')
             print("Percentage: ", correct / total)
             fig, ax = plt.subplots(1, 3, figsize=(10, 5))
