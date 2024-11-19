@@ -2,6 +2,22 @@
 
 # # agentemu.py -- DRL-SSxApp Emulator for Training an DQN_Dueling with Captured Data from 3 Network Slices
 
+# Deep Q-Network (DQN) is a reinforcement learning algorithm that combines Q-learning with deep neural networks to approximate the action-value function. The key idea is to use a deep neural network to estimate the Q-values, which represent the expected cumulative reward obtained from taking a certain action in a given state and following an optimal policy thereafter.
+
+
+# ## Algorithm Overview
+# 1. Initialize the Q-network with random weights and set the target network with the same weights.
+# 2. For each episode:
+#    - Observe the current state \( s \).
+#    - Select an action \( a \) using an \(\epsilon\)-greedy policy.
+#    - Execute the action \( a \), receive the reward \( r \), and observe the next state \( s' \).
+#    - Store the transition \( (s, a, r, s') \) in the replay buffer.
+#    - Sample a mini-batch of transitions from the replay buffer.
+#    - Compute the target value \( y \) and update the Q-network using gradient descent.
+#    - Update the target network periodically.
+
+
+
 
 # ## **Code**
 
@@ -68,11 +84,35 @@ EPISODE_MAX_TIMESTEP = 3  # Maximum number of timesteps per episodes
 global unique_episode_counter
 
 
+
+
+
+
+
 # ### **Q-Network**
 #
 # This class definition implements a Q-Network using PyTorch, which is a type of
 # neural network used in reinforcement learning to approximate the Q-value
 # function.
+
+
+# ### Q-Learning
+# Q-learning is a value-based reinforcement learning algorithm that aims to learn the optimal action-value function, \( Q^*(s, a) \), which satisfies the Bellman equation.
+
+# ### Experience Replay
+# Experience replay is a mechanism used to store the agent's experiences, \( (s, a, r, s') \), in a replay buffer. During training, mini-batches of experiences are sampled uniformly from this buffer. This approach helps to break the correlation between consecutive experiences, making the training process more stable.
+
+# ### Target Network
+# To stabilize the learning process, DQN uses a separate target network to compute the target Q-values. The parameters of the target network are updated periodically to match the parameters of the main Q-network, which reduces oscillations and divergence.
+
+# ### Loss Function
+# The DQN algorithm minimizes a loss function defined as:
+
+# $$
+# L(\theta) = \mathbb{E}_{(s, a, r, s') \sim \text{ReplayBuffer}} \left[ \left( y - Q(s, a; \theta) \right)^2 \right],
+# $$
+
+# where $$ \( y = r + \gamma \max_{a'} Q(s', a'; \theta^-) \), \( \theta \) $$ are the parameters of the Q-network, and $$ \( \theta^- \) $$ are the parameters of the target network.
 
 
 # **init**: Initializes the Q-Network with the given parameters and defines the
@@ -114,6 +154,8 @@ class DQN_QNetwork(nn.Module):
 # act: Chooses an action using an epsilon-greedy policy. learn: Updates the
 # Q-network based on sampled experiences. soft_update: Updates the target
 # Q-network by interpolating between local and target models.
+
+
 
 
 class DQN():

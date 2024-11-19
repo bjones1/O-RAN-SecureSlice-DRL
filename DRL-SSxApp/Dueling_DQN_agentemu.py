@@ -245,7 +245,7 @@ class Dueling_ReplayBuffer:
 # The training process is repeated for a specified number of episodes.
 # The trained model is saved to a file.
 
-def run_dueling(agent, n_episodes=1500, max_t=3, eps_start=1.0, eps_end=0.01, eps_decay=0.995, pth_file='checkpoint.pth', malicious_chance=1000, malicious_chance_increase=0.0):
+def run_dueling(agent, n_episodes=60000, max_t=4, eps_start=1.0, eps_end=0.01, eps_decay=0.995, pth_file='checkpoint.pth', malicious_chance=1000, malicious_chance_increase=0.0):
     """
     Train the DQN agent with specified parameters and save checkpoints.
     """
