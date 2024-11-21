@@ -25,13 +25,22 @@ This project utilizes the CodeChat editor to facilitate a literate programming e
 3. **Install python depencencies with poetry**   
    Run poetry install in the root directory of the repo to install the required depencencies to train the agent.
 
-4. **Run the DRL Agent**  
+4. **Train the DRL Agent**  
    Train the DRL agent either DQN, DDQN, or Dueling DQN agent emu scripts in DRL-SSxApp/ to train the model within the specified emulated environment. By default, a fixed number of PRBs are allocated with the option to sample from collected real world data.
 
-5. **Model Checkpoints**  
+   The easiest way to do this is by using the model_inference.py script provided after tweaking settings in the specific agents training scripts.  
+   E.g. python3 model_inference.py --operation train --model_type Dueling
+
+5. **Inference using Model Checkpoints**  
    Model checkpoints are saved automatically, allowing you to integrate the trained model into the loop for real-time performance evaluation. An inference script has been provided 'model_inference.py' for all of the associated models. It can be run as follows from DRL-SSxApp directory: 
    
    python3 model_inference --model_type Dueling --num_episodes 1000 --malicious_chance 100
+
+6. **Visualize results**
+   Training of models: To visualize the training of each model there is a provided matlab script in DRL-SSxApp/training_rewards named plot_rewards.m This script can be run such as E.g. plot_rewards('DQN_episode_rewards.csv');
+
+   Additionally a script to plot all of the models training is provided in the same directory and can be run such as E.g. plot_all_rewards(); This is helpful to compare the convergence times of various models visually.
+
 
 
 
