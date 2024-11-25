@@ -136,68 +136,26 @@ https://github.com/openaicellular/srsRAN-e2/blob/master/srsenb/enb.conf.example
 
 ## Results
 
-DQN:
+**Convergence when training**
 
-**Hyperparameters and environment-specific constants**
+The training rewards averages per 1000 episodes for each model over the
+timesteps. DQN converges around 7x10^5 timesteps whereas DDQN and Dueling
+quickly converge to the optimal policy once the epsilon decay is set very low
+E.g. 10 episodes fall off. It should be noted that DQN never converges in my
+testing with a lower epsilon decay than 400 episodes per.
 
-LR = 1e-4\\
+![Training for DQN, DDQN, and Dueling DQN](../documentation/images/training.png)
 
-BATCH_SIZE = 32\\
 
-BUFFER_SIZE = int(1e5)\\
 
-UPDATE_EVERY = 4\\
+**Infernece Results**
 
-TAU = 5e-4
 
-action_prbs = \[2897, 965, 91\] if episode % 400 == 0: # Decay epsilon every
+The following figure shows how the models perfrom when malicious slices are
+present with increasing likelihood. The actions are monitored for the
+appropriate action E.g. Slice or not the malicious one and correct actions taken
+are cummulated. The figurew was plotted consider 1000 episodes per chance. All
+models seem to struggle between 10 - 30 % chance of malicious with Dueling
+performing best at this low likelihood.
 
-400 episodes
-
-final average reward 26444471
-
-![image](../documentation/images/DQN.png)
-
-DDQN:
-
-**Hyperparameters and environment-specific constants**
-
-LR = 1e-4\\
-
-BATCH_SIZE = 32\\
-
-BUFFER_SIZE = int(1e5)\\
-
-UPDATE_EVERY = 4\\
-
-TAU = 5e-4
-
-action_prbs = \[2897, 965, 91\] if episode % 400 == 0: # Decay epsilon every
-
-400 episodes
-
-final average reward 26043123
-
-![image](../documentation/images/DDQN.png)
-
-Dueling DQN
-
-**Hyperparameters and environment-specific constants**
-
-LR = 1e-4\\
-
-BATCH_SIZE = 32\\
-
-BUFFER_SIZE = int(1e5)\\
-
-UPDATE_EVERY = 4\\
-
-TAU = 5e-4
-
-action_prbs = \[2897, 965, 91\] if episode % 400 == 0:
-
-Decay epsilon every 100 episodes
-
-final average reward 25155529
-
-![Dueling DQN](../documentation/images/duelingDQN.png)
+![DCF for increasing malicious chance](../documentation/images/maliciousdcf.png)

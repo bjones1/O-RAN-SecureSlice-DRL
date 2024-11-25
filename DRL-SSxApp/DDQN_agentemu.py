@@ -292,7 +292,7 @@ def run_ddqn(agent, n_episodes=1500, max_t=3, eps_start=1.0, eps_end=0.01, eps_d
             max_t += 1  # Increment the timestep
             i += 1  # Increment the step counter
 
-        if episode % 400 == 0:  # Decay epsilon every 500 episodes
+        if episode % 10 == 0:  # Decay epsilon every 500 episodes
             eps = max(eps_end, eps_decay * eps)
             
         # Store the score and actions
