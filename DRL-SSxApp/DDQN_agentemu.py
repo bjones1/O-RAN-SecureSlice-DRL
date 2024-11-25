@@ -1,6 +1,63 @@
 #!/usr/bin/env python3
 
-# # agentemu.py -- DRL-SSxApp Emulator for Training an DQN_Dueling with Captured Data from 3 Network Slices
+# # agentemu.py -- DRL-SSxApp Emulator for Training an DDQN with Captured Data from 3 Network Slices
+
+
+# **Double Deep Q-Network (DDQN) Overview**
+
+# DDQN is an improvement over the classic DQN algorithm that addresses the overestimation bias in Q-value estimation. The main advantage of DDQN is that it uses two separate neural networks: one for selecting actions and another for generating target Q-values. This helps mitigate the issue where the same network is used for both action selection and Q-value estimation, leading to biased Q-value estimates.
+
+# ### **Algorithm Overview (for DDQN)**
+
+# 1. **Initialize the Q-networks:**
+#    - Initialize the local Q-network with random weights. This network will be responsible for selecting actions.
+#    - Initialize the target Q-network with the same weights as the local Q-network. The target network is used to calculate the Q-value targets.
+   
+# 2. **For each episode:**
+#    - **Observe the current state** \(s\): Get the current state from the environment.
+   
+#    - **Select an action** \(a\) using an epsilon-greedy policy:
+#      - With probability \( \epsilon \), select a random action (exploration).
+#      - With probability \( 1 - \epsilon \), select the action that maximizes the Q-value from the local Q-network (exploitation).
+
+#    - **Execute the action** \(a\):
+#      - Take the selected action in the environment, receive the reward \(r\), and observe the next state \(s'\).
+
+#    - **Store the transition** \((s, a, r, s')\) in the replay buffer:
+#      - Add the transition to the replay buffer for future sampling and learning.
+
+#    - **Sample a mini-batch of transitions** from the replay buffer:
+#      - Randomly sample a batch of experiences \((s, a, r, s')\) from the replay buffer.
+
+#    - **Compute the target value** \(y\):
+#      - For the next state \(s'\), use the **local Q-network** to select the action that maximizes the Q-value:
+#        $$
+#        a' = \arg\max_a Q_{\text{local}}(s', a)
+#        $$
+#      - Use the **target Q-network** to compute the Q-value for the selected action:
+#        $$
+#        y = r + \gamma Q_{\text{target}}(s', a')
+#        $$
+#      - Here, \( \gamma \) is the discount factor, \( Q_{\text{local}} \) estimates the action-value function for the current state, and \( Q_{\text{target}} \) is used to calculate the target Q-value.
+
+#    - **Update the Q-network** using gradient descent:
+#      - Compute the loss between the predicted Q-values from the local Q-network and the target Q-values.
+#      - Perform a gradient descent step to minimize the loss and update the weights of the local Q-network.
+
+#    - **Periodically update the target network:**
+#      - Every few steps, perform a **soft update** of the target Q-network:
+#        $$
+#        \theta_{\text{target}} \leftarrow \tau \theta_{\text{local}} + (1 - \tau) \theta_{\text{target}}
+#        $$
+#      - Here, \( \tau \) is a small factor controlling how much the target network should be updated.
+
+# ---
+
+# ### **Key Differences of DDQN vs DQN:**
+# - **Action Selection:** In DDQN, the action selection is done using the local Q-network, whereas in DQN, the same network is used for both action selection and Q-value estimation, which can lead to overestimation.
+# - **Target Q-value Calculation:** DDQN uses the local Q-network to select the next action but uses the target Q-network to calculate the Q-value for that action, which reduces overestimation bias. In DQN, the target network is used for both action selection and Q-value calculation, which can lead to biased Q-values.
+
+# This modification reduces the overestimation bias and makes the Q-value estimates more accurate, leading to improved performance in reinforcement learning tasks.
 
 
 # ## **Code**

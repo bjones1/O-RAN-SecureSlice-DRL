@@ -2,6 +2,85 @@
 
 # # agentemu.py -- DRL-SSxApp Emulator for Training an DQN_Dueling with Captured Data from 3 Network Slices
 
+# **Dueling Deep Q-Network (Dueling DQN) Overview**
+
+# Dueling DQN is an enhancement to the standard DQN algorithm, which improves the estimation of Q-values by separating the value and advantage functions. This allows the agent to more efficiently learn the value of states and the relative advantage of actions, leading to better performance, especially in environments where certain actions are more useful in some states than others.
+
+# ### **Algorithm Overview (for Dueling DQN)**
+
+# 1. **Initialize the Q-network:**
+#    - Initialize the Q-network with random weights. The architecture of the Q-network is split into two streams:
+#      - A **state-value stream** that estimates the value of being in a given state.
+#      - An **advantage stream** that estimates the advantage of taking a particular action in that state.
+   
+# 2. **For each episode:**
+#    - **Observe the current state** \(s\): Get the current state from the environment.
+   
+#    - **Select an action** \(a\) using an epsilon-greedy policy:
+#      - With probability \( \epsilon \), select a random action (exploration).
+#      - With probability \( 1 - \epsilon \), select the action that maximizes the Q-value from the Q-network (exploitation).
+
+#    - **Execute the action** \(a\):
+#      - Take the selected action in the environment, receive the reward \(r\), and observe the next state \(s'\).
+
+#    - **Store the transition** \((s, a, r, s')\) in the replay buffer:
+#      - Add the transition to the replay buffer for future sampling and learning.
+
+#    - **Sample a mini-batch of transitions** from the replay buffer:
+#      - Randomly sample a batch of experiences \((s, a, r, s')\) from the replay buffer.
+
+#    - **Compute the Q-values**:
+#      - In Dueling DQN, the Q-value is computed as the sum of the state value and the advantage of the chosen action:
+#        $$
+#        Q(s, a; \theta) = V(s; \theta) + A(s, a; \theta)
+#        $$
+#      - Where:
+#        - \(V(s; \theta)\) is the state-value function.
+#        - \(A(s, a; \theta)\) is the advantage function for the action \(a\).
+#      - The advantage function is defined such that its mean value across all actions for a given state is zero:
+#        $$
+#        \frac{1}{|A|} \sum_a A(s, a; \theta) = 0
+#        $$
+
+#    - **Compute the target value** \(y\):
+#      - Compute the target value as in DQN and DDQN:
+#        $$
+#        y = r + \gamma Q_{\text{target}}(s', a')
+#        $$
+#      - The difference is that \( Q_{\text{target}} \) comes from the dueling architecture, which computes the state-value and advantage components separately.
+
+#    - **Update the Q-network** using gradient descent:
+#      - Compute the loss between the predicted Q-values and the target Q-values.
+#      - Perform a gradient descent step to minimize the loss and update the weights of the Q-network.
+
+#    - **Periodically update the target network:**
+#      - Every few steps, perform a **soft update** of the target Q-network:
+#        $$
+#        \theta_{\text{target}} \leftarrow \tau \theta_{\text{local}} + (1 - \tau) \theta_{\text{target}}
+#        $$
+
+# ---
+
+# ### **Key Differences Between Dueling DQN, DQN, and DDQN:**
+
+# - **State-Action Value Function (Q-values):**
+#   - **DQN**: Uses a single Q-network to estimate the action-value function, where \( Q(s, a; \theta) \) represents the expected reward for a state-action pair.
+#   - **DDQN**: Uses two networks (local and target) to reduce the overestimation bias in Q-value estimation, but still uses a single stream to estimate the Q-values.
+#   - **Dueling DQN**: Splits the Q-value into two components: the state-value function \( V(s) \) and the advantage function \( A(s, a) \). This separation allows for a more refined estimation of Q-values, especially when actions are not very different in terms of their impact.
+
+# - **Advantage of Dueling DQN over DQN and DDQN:**
+#   - Dueling DQN helps in environments where the value of a state is more important than the individual advantages of the actions (e.g., when most actions lead to similar outcomes). By separately estimating the state value and action advantage, it enables better learning of state values, especially for states where all actions lead to similar outcomes.
+#   - Compared to DQN, Dueling DQN provides a more efficient representation of the Q-function by considering the value of the state independently of the actions, thus improving performance.
+#   - In DDQN, the addition of two networks reduces overestimation bias, but it does not separate the state-value and advantage functions, which can still limit performance in some cases.
+
+# - **Action Selection:** 
+#   - **DQN** and **DDQN** both select actions based on the maximum Q-value from a single stream, while **Dueling DQN** selects actions based on the computed Q-values from both the state-value and advantage streams.
+
+# - **Target Calculation:** 
+#   - In **Dueling DQN**, the target calculation remains the same as in **DQN** and **DDQN** in terms of using the next state’s Q-value for bootstrapping, but the calculation of Q-values themselves is based on two separate streams.
+
+# By separating the value and advantage functions, **Dueling DQN** can more efficiently learn the value of states and advantages of actions, especially when there are many similar or redundant actions in a given state. This leads to better performance in environments with sparse rewards or when many actions have similar consequences.
+
 
 # ## **Code**
 
@@ -87,12 +166,14 @@ class Dueling_QNetwork(nn.Module):
         self.l1 = nn.Linear(state_len, layer1_size)
         self.l2 = nn.Linear(layer1_size, layer2_size)
 
-        # Separate streams for value and advantage
+        # Separate stream to calculate the state value (V(s))
         self.value_stream = nn.Sequential(
             nn.Linear(layer2_size, 128),
             nn.ReLU(),
             nn.Linear(128, 1)  # Outputs a single value
         )
+        # Separate stream to calculate the advantage of each action (A(s, a))
+
         self.advantage_stream = nn.Sequential(
             nn.Linear(layer2_size, 128),
             nn.ReLU(),
@@ -171,10 +252,8 @@ class DQN_Dueling():
         # Get the Q-values for the current state using the local model
         Q_expected = self.qnetwork_local(states).gather(1, actions)
 
-        # Double DQN logic:
-        # 1. Use the local model to select the best action in the next state
+        
         next_action = self.qnetwork_local(next_states).max(1)[1].unsqueeze(1)
-        # 2. Use the target model to calculate the Q-value for the selected action
         Q_targets_next = self.qnetwork_target(next_states).gather(1, next_action)
 
         Q_targets = rewards + (gamma * Q_targets_next * (1 - dones))
