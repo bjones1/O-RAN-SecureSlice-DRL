@@ -32,8 +32,8 @@
 
 1. **[Overview of DRL models](DRL-SSxApp/Overview.md)**: Description of objective, models, and how to inference
 2. **[DQN agent training](DRL-SSxApp/DQN_agentemu.py)**: Agent training with DQN model
-3. **[DQN agent training](DRL-SSxApp/DDQN_agentemu.py)**: Agent training with DDQN model
-4. **[DQN agent training](DRL-SSxApp/Dueling_DQN_agentemu.py)**: Agent training with Dueling DQN model
+3. **[DDQN agent training](DRL-SSxApp/DDQN_agentemu.py)**: Agent training with DDQN model
+4. **[Dueling DQN agent training](DRL-SSxApp/Dueling_DQN_agentemu.py)**: Agent training with Dueling DQN model
 5. **[Inference Script for models](DRL-SSxApp/model_inference.py)**: A script tailored for inferencing model checkpoints
 
 <!-- 1. **[Emulated environment](DRL-SSxApp/agentemu.py)**: Agent training without hardware.
