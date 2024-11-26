@@ -1,3 +1,5 @@
+# # `pyproject.toml` - Project dependencies and configuration
+
 [tool.poetry]
 name = "o-ran-secureslice-drl"
 version = "0.1.0"
@@ -6,6 +8,8 @@ authors = ["Joshua Moore <40312633+joshuamoorexyz@users.noreply.github.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
+# <mark>BAJ</mark>: In general, use >= instead of ^. Poetry defaults to the
+# wrong thing. Don't forget to run `poetry show --outdated` on a regular basis.
 python = "^3.8"
 torch = "^2.0.0"
 numpy = "^1.21.0"

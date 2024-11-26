@@ -1,10 +1,12 @@
-﻿=======================
-Running the DRL-SS Xapp 
+﻿BAJ: Convert to Markdown when you can.
+
+=======================
+Running the DRL-SS Xapp
 =======================
 
 The xapp has a southbound interface to the RIC where it can send commands down to the nodes and a northbound interface where high level commands can be issued by the user.
 
-Setup 
+Setup
 =====
 
 1. Install Near-Real Time RIC
@@ -24,7 +26,7 @@ Setup
     cd srslte-e2
 
 .. code-block:: bash
-    
+
     rm -rf build
     mkdir build
     export SRS=`realpath .`
@@ -53,14 +55,14 @@ Under the oaic directory, run the following commands
 
 Now we are going to build the xapp from the dockerfile
 
-Before deploying the xApp, we first need to host the config file (xApp descriptor) provided in the web server we have created already. 
+Before deploying the xApp, we first need to host the config file (xApp descriptor) provided in the web server we have created already.
 Follow the instructions to create a Web server from here:  https://openaicellular.github.io/oaic/xapp_deployment.html
 
 You need to follow Configuring the Nginx Server and Hosting Config Files portion of the documentation. The config file is located within the repository you just cloned.
 
 .. code-block:: bash
 
-    cd ~/oaic/drl-ss  
+    cd ~/oaic/drl-ss
     sudo docker build . -t xApp-registry.local:5008/drl-ss:0.1.0
 
 Paste the following in the ``drl-ss-onboard.url`` file. Substitue the ``<machine_ip_addr>`` with the IP address of your machine. You can find this out through ``ifconfig``.
@@ -68,7 +70,7 @@ Paste the following in the ``drl-ss-onboard.url`` file. Substitue the ``<machine
 .. code-block:: bash
 
     {"config-file.json_url":"http://<machine_ip_addr>:5010/config_files/config-file.json"}
-    
+
 Running the DRL-SS xApp
 =======================
 
@@ -78,7 +80,7 @@ Running the DRL-SS xApp
 
 .. code-block:: bash
 
-    sudo kubectl -n ricxapp rollout restart deployment ricxapp-drl-ss 
+    sudo kubectl -n ricxapp rollout restart deployment ricxapp-drl-ss
 
 Terminal 1: Start the Core Network/Add Ues to Network Namespace
 
@@ -87,8 +89,8 @@ Terminal 1: Start the Core Network/Add Ues to Network Namespace
     sudo ip netns add ue1
     sudo ip netns add ue2
     sudo ip netns add ue3
-    sudo ip netns list    
-    sudo srsepc 
+    sudo ip netns list
+    sudo srsepc
 
 Terminal 2: Set up Environment Variables and Base Station
 
@@ -97,9 +99,9 @@ Terminal 2: Set up Environment Variables and Base Station
     export E2NODE_IP=`hostname  -I | cut -f1 -d' '`
     export E2NODE_PORT=5006
     export E2TERM_IP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2term-sctp-alpha -o jsonpath='{.items[0].spec.clusterIP}'`
-    
+
 .. code-block:: bash
-       
+
     sudo srsenb --enb.n_prb=100 --enb.name=enb1 --enb.enb_id=0x19B \
     --rf.device_name=zmq --rf.device_args="fail_on_disconnect=true,tx_port=tcp://*:2000,rx_port=tcp://localhost:2009,id=enb,base_srate=23.04e6" --ric.agent.remote_ipv4_addr=${E2TERM_IP} --log.all_level=warn --ric.agent.log_level=debug --log.filename=stdout --ric.agent.local_ipv4_addr=${E2NODE_IP} --ric.agent.local_port=${E2NODE_PORT} --slicer.enable=1 --slicer.workshare=0
 
@@ -116,14 +118,14 @@ Terminal 4: Set up the second UE
 
     sudo srsue \
     --rf.device_name=zmq --rf.device_args="tx_port=tcp://*:2007,rx_port=tcp://localhost:2400,id=ue,base_srate=23.04e6" --usim.algo=xor --usim.imsi=001010123456780 --usim.k=00112233445566778899aabbccddeeff --usim.imei=353490069873310 --log.all_level=warn --log.filename=stdout --gw.netns=ue2
-    
+
 Terminal 5: Set up the third UE
 
 .. code-block:: bash
 
     sudo srsue \
     --rf.device_name=zmq --rf.device_args="tx_port=tcp://*:2008,rx_port=tcp://localhost:2500,id=ue,base_srate=23.04e6" --usim.algo=xor --usim.imsi=001010123456781 --usim.k=00112233445566778899aabbccddeeff --usim.imei=353490069873310 --log.all_level=warn --log.filename=stdout --gw.netns=ue3
-    
+
 Terminal 6: Start the gnuradio flowgraph
 
 .. code-block:: bash
@@ -133,10 +135,10 @@ Terminal 6: Start the gnuradio flowgraph
 Terminal 6 & 7: Set up iperf3 test on the server side
 
 .. code-block:: bash
-   
+
    iperf3 -s -B 172.16.0.1 -p 5006 -i 1
    iperf3 -s -B 172.16.0.1 -p 5020 -i 1
-   iperf3 -s -B 172.16.0.1 -p 5030 -i 1 
+   iperf3 -s -B 172.16.0.1 -p 5030 -i 1
 
 Terminal 8 & 9: Set up iperf3 test on the client side
 
@@ -153,7 +155,7 @@ You should notice traffic flow on both the server and client side for both UEs. 
 Terminal 10
 
 .. code-block:: bash
-    
+
     cd drl-ss
     export KONG_PROXY=`sudo kubectl get svc -n ricplt -l app.kubernetes.io/name=kong -o jsonpath='{.items[0].spec.clusterIP}'`
     export E2MGR_HTTP=`sudo kubectl get svc -n ricplt --field-selector metadata.name=service-ricplt-e2mgr-http -o jsonpath='{.items[0].spec.clusterIP}'`
@@ -188,8 +190,4 @@ Now run the test script with the following commands. You have to access the test
     chmod +x zmqthreeue.sh
     ./zmqthreeue.sh
 
-After a short time you can observe through the logs that UE1 will be considered malicious and moved to a different slice. You also observe the traffic exchange for UE1 will significantly decrease. 
-
-
-
-
+After a short time you can observe through the logs that UE1 will be considered malicious and moved to a different slice. You also observe the traffic exchange for UE1 will significantly decrease.
